@@ -1,131 +1,248 @@
 {
   "id": "foil",
   "title": "二向箔 / Dimensional Strike",
-  "duration": 62.0,
-  "direction": "A tiny, softly glowing slip of 'paper' drifts into the Solar System. Where it rests, three-dimensional space collapses into a flat plane that spreads without stopping; Neptune, Saturn, Earth and finally the Sun fall into it and spread out as vast, luminous, perfectly flat paintings - beautiful and final. This is an elegy, not a battle: no drums. Palette: felt-piano-like notes (soft attack, long decay) carrying a simple slow melody in A minor / A dorian; a wide slow string pad; glassy bell tones; and underneath, from 11s onward, a continuously descending Shepard tone (the feeling of endlessly falling). Each planet's fall is a soft swell that blooms and flattens. The Sun (43s) is the emotional peak: full pad, widest chord, then it thins to one held high note.",
+  "duration": 150.0,
+  "direction": "A tiny, softly glowing slip of 'paper' drifts into the Solar System. Where it rests, three-dimensional space collapses into a flat plane that spreads without stopping; Neptune, Saturn, Earth and finally the Sun fall into it and spread out as vast, luminous, perfectly flat paintings - beautiful and final. This is an elegy, not a battle: no drums. Palette: felt-piano-like notes (soft attack, long decay) carrying a simple slow melody in A minor / A dorian; a wide slow string pad; glassy bell tones; and underneath, from 11s onward, a continuously descending Shepard tone (the feeling of endlessly falling). Each planet's fall is a soft swell that blooms and flattens. The Sun (118-130s) is the emotional peak: full pad, widest chord, then it thins to one held high note. NEW IN THIS LONGER CUT: Jupiter and Earth are shown slowly and in detail. Jupiter's storms keep turning after the planet has become a flat picture. Earth's oceans freeze into snowflakes hundreds of kilometres across. And for the first time we go down to the surface (82-110s): a single figure on a waterfront at dusk watches the flat edge cross the city skyline, the bay freeze into a field of giant flat frost, and finally reach them - then we see city and figure from above, a flat picture. This passage is the emotional centre: human scale, very quiet, the piano melody alone and close, then nothing but a held breath as the edge arrives.",
   "sections": [
     {
       "t": 0.0,
-      "name": "title",
-      "level": 1,
-      "note": "black screen title. A single high bell tone, long reverb."
+      "name": "hook",
+      "level": 4,
+      "note": "COLD OPEN, no title card and no fade-in: the film starts on its biggest image, the Sun half sunk into the plane and unrolling into a spiral sea of fire. The music must be at full emotional weight from the first sample after the 30 ms lead-in: the full pad in its widest voicing with deep sustained bass and a big soft swell peaking in the first second (no drums). It is cut off at 5.0s."
     },
     {
-      "t": 4.0,
+      "t": 5.0,
       "name": "calm",
       "level": 1,
-      "note": "the serene Solar System; a small slip of light glides past. Sparse felt-piano melody, innocent."
+      "note": "hard cut back in time: home. The Earth turning, the Moon, Jupiter beyond; the title appears beside it. Half a second of near silence after the cut (only the hook's reverb tail), then the sparse felt-piano melody, innocent. Lasts until 11.0s."
     },
     {
       "t": 11.0,
       "name": "foil",
       "level": 1,
-      "note": "close on the foil; its glow fades and space around it begins to flatten. Melody stops on an unresolved note; the descending Shepard tone starts very quietly."
+      "note": "a small slip of light glides in. At 15.6s its glow goes out; at 17.7s space around it begins to flatten. Melody stops on an unresolved note; the descending Shepard tone starts very quietly."
     },
     {
-      "t": 17.0,
+      "t": 22.0,
       "name": "neptune",
       "level": 2,
-      "note": "the plane's edge sweeps outward; Neptune falls and spreads into a flat blue disc. Pad enters; first swell."
+      "note": "Neptune sinks into the plane (gone by 27.5s) and its surface is laid out flat, the dark spot still turning. Pad enters; first swell."
     },
     {
-      "t": 25.0,
+      "t": 30.0,
       "name": "saturn",
       "level": 3,
-      "note": "Saturn and its rings flatten into immense concentric circles. Bigger swell, melody returns an octave higher."
+      "note": "Saturn and its rings flatten into immense concentric circles (gone by 36.7s). Bigger swell, melody returns an octave higher."
     },
     {
-      "t": 33.0,
+      "t": 40.0,
+      "name": "jupiter",
+      "level": 3,
+      "note": "Jupiter, slowly, 26 seconds. 40-46s: the giant comes down toward the plane with its moons, the Great Red Spot turning (it touches at 44.6s): a slow, heavy, majestic low-brass-like pad figure. 46-60s: it sinks and its atmosphere pours outward from the waterline, band after band - the deepest, longest swell so far, cresting as the last of it goes under at 59.7s. 60-66s: seen from above, the flat storm is STILL slowly turning, and Jupiter's interior wells up in the middle: a slow revolving figure (a 3-note ostinato in the pad rotating around the stereo field, about one revolution every 4 seconds), eerie and hypnotic rather than loud."
+    },
+    {
+      "t": 66.0,
       "name": "earth",
       "level": 3,
-      "note": "Earth and the Moon. The most intimate passage: the solo melody at its clearest over a warm pad; giant snowflakes bloom around the flat Earth (glassy bell arpeggio, like ice crystallising)."
+      "note": "Earth from orbit, the flat Jupiter behind it. The solo melody at its clearest over a warm pad as Earth touches the plane (69.6s) and its oceans and continents stream outward (72-78s). 78-82s: from above, the last cap of Earth still standing proud of the plane - the melody thins to a single line, leading down to the surface."
     },
     {
-      "t": 41.0,
+      "t": 82.0,
+      "name": "witness",
+      "level": 1,
+      "note": "on the surface, 28 seconds: a hilltop terrace above a harbour city at dusk, one small figure at the rail. 82-88s: just the felt piano, close and dry, the melody played once, slower, with a faint room tone (very quiet filtered noise); a bright line is coming across the sea. 88-94s: low over the bay - the edge overtakes the camera (90.0s) and the sea freezes into flat frost racing ahead to the piers (92.6s): the Shepard descent becomes audible again, pad enters low, glassy bell arpeggio, faster and faster. 94-100s: among the towers as they sink and are laid out flat, every lit window kept - bells and pad, the fullest this passage gets, still no drums. 100-103.6s: behind the figure as the ring closes on the hill. 103.6s: it reaches them - everything stops on one held unresolved chord, then near silence. 106-110s: straight up - the flat figure, the flat city, a picture: a single very soft high note."
+    },
+    {
+      "t": 110.0,
+      "name": "snow",
+      "level": 2,
+      "note": "cut to orbit, straight above the same spot: the flat Earth as a map. Its two-dimensional oceans freeze from the rim inward and a crown of giant snowflakes blooms around it (most of them by 115s); its core wells up in the middle. Glassy bell arpeggios like ice crystallising, getting denser, over a quiet pad. This is the old second half of 'earth'."
+    },
+    {
+      "t": 118.0,
       "name": "sun",
       "level": 4,
-      "note": "the Sun falls and unrolls into a colossal swirling disc of fire, like The Starry Night. Emotional peak: full pad, widest voicing, deep sustained bass. Still no drums - weight comes from the low end."
+      "note": "the Sun sinks (118-124s, low angle) and unrolls into a colossal swirling disc of fire seen from above (124-130s), like The Starry Night. Emotional peak: full pad, widest voicing, deep sustained bass. Still no drums - weight comes from the low end."
     },
     {
-      "t": 50.0,
+      "t": 130.0,
       "name": "painting",
       "level": 2,
-      "note": "pull back from the finished flat painting of the whole system while fleeing. Harmony resolves, thinning out."
+      "note": "pull back from the finished flat painting of the whole system. Harmony resolves, thinning out. At 136.1s one tiny ship leaves Pluto at lightspeed, a single bright streak: a high clear ping with a quick upward bloom, the only hopeful sound in the piece."
     },
     {
-      "t": 55.0,
+      "t": 142.0,
       "name": "endcard",
       "level": 1,
-      "note": "end card. One held high note and the last of the Shepard descent, fading to silence by 61.5s."
+      "note": "end card. One held high note and the last of the Shepard descent, fading to silence by 149.5s."
     }
   ],
   "hits": [
     {
-      "t": 0.5,
+      "t": 0.04,
+      "kind": "swell",
+      "gain": 1.0
+    },
+    {
+      "t": 0.04,
+      "kind": "sub",
+      "gain": 1.0
+    },
+    {
+      "t": 5.5,
       "kind": "glass",
       "gain": 0.8
     },
     {
       "t": 11.0,
       "kind": "glass",
-      "gain": 0.7
+      "gain": 0.6
     },
     {
-      "t": 14.0,
+      "t": 15.6,
+      "kind": "glass",
+      "gain": 0.5
+    },
+    {
+      "t": 17.7,
       "kind": "sub",
       "gain": 0.6
     },
     {
-      "t": 22.3,
+      "t": 27.5,
       "kind": "swell",
       "gain": 0.8
     },
     {
-      "t": 29.0,
+      "t": 36.7,
       "kind": "swell",
       "gain": 0.9
     },
     {
-      "t": 29.0,
+      "t": 36.7,
       "kind": "sub",
       "gain": 0.7
     },
     {
-      "t": 37.0,
+      "t": 44.6,
+      "kind": "sub",
+      "gain": 0.7
+    },
+    {
+      "t": 59.7,
       "kind": "swell",
+      "gain": 1.0
+    },
+    {
+      "t": 59.7,
+      "kind": "sub",
       "gain": 0.9
     },
     {
-      "t": 38.5,
+      "t": 61.0,
+      "kind": "glass",
+      "gain": 0.6
+    },
+    {
+      "t": 69.6,
+      "kind": "swell",
+      "gain": 0.8
+    },
+    {
+      "t": 78.0,
+      "kind": "glass",
+      "gain": 0.6
+    },
+    {
+      "t": 82.0,
+      "kind": "glass",
+      "gain": 0.5
+    },
+    {
+      "t": 90.0,
+      "kind": "swell",
+      "gain": 0.6
+    },
+    {
+      "t": 92.6,
       "kind": "glass",
       "gain": 0.7
     },
     {
-      "t": 43.6,
+      "t": 94.0,
+      "kind": "glass",
+      "gain": 0.5
+    },
+    {
+      "t": 103.6,
+      "kind": "sub",
+      "gain": 0.9
+    },
+    {
+      "t": 106.0,
+      "kind": "glass",
+      "gain": 0.6
+    },
+    {
+      "t": 110.0,
+      "kind": "swell",
+      "gain": 0.7
+    },
+    {
+      "t": 114.5,
+      "kind": "glass",
+      "gain": 0.7
+    },
+    {
+      "t": 118.04,
       "kind": "swell",
       "gain": 1.0
     },
     {
-      "t": 43.6,
+      "t": 118.04,
       "kind": "sub",
       "gain": 1.0
     },
     {
-      "t": 46.5,
+      "t": 124.3,
+      "kind": "swell",
+      "gain": 0.9
+    },
+    {
+      "t": 124.3,
       "kind": "sub",
       "gain": 0.8
     },
     {
-      "t": 50.0,
+      "t": 130.0,
       "kind": "glass",
+      "gain": 0.6
+    },
+    {
+      "t": 136.1,
+      "kind": "glass",
+      "gain": 0.9
+    },
+    {
+      "t": 136.1,
+      "kind": "swell",
       "gain": 0.6
     }
   ],
   "risers": [
     {
-      "from": 39.5,
-      "to": 43.6
+      "from": 114.0,
+      "to": 118.0
     }
   ],
-  "silences": []
+  "silences": [
+    {
+      "from": 5.0,
+      "to": 5.5
+    },
+    {
+      "from": 103.75,
+      "to": 105.75
+    }
+  ]
 }

@@ -26,8 +26,8 @@ from common import master, ride
 PIECES = {
     # id: (module, seed, hall_rt, hall_gain, room_rt, room_gain, level->relative LUFS targets)
     'guzheng': ('p_guzheng', 11, 5.0, 0.62, 1.5, 0.35, {0: -29, 1: -22, 2: -15.5, 3: -13, 4: -11}),
-    'droplet': ('p_droplet', 23, 5.5, 0.55, 1.4, 0.3, {0: -27, 1: -20, 2: -15, 3: -12.5, 4: -11}),
-    'foil': ('p_foil', 37, 6.2, 0.7, 1.7, 0.3, {0: -26, 1: -21, 2: -17, 3: -14.5, 4: -12}),
+    'droplet': ('p_droplet', 23, 5.5, 0.55, 1.4, 0.3, {0: -29, 1: -25, 2: -15, 3: -12.5, 4: -11}),
+    'foil': ('p_foil', 37, 6.2, 0.7, 1.7, 0.3, {0: -29, 1: -23, 2: -17, 3: -14.5, 4: -12}),
 }
 
 
@@ -52,7 +52,7 @@ def build(pid, report=False):
     hall = make_ir(hrt, 0.032, np.random.default_rng(seed + 1))
     room = make_ir(rrt, 0.010, np.random.default_rng(seed + 2), tilt=(1.1, 1.0, 0.8, 0.5, 0.3))
     x, wh, wr = mix.render(hall, room, hg, rg)
-    x = ride(x, cue, targets)
+    x = ride(x, cue, targets, getattr(mod, 'RIDE_OVERRIDES', None))
     y, info = master(x, cue)
     assert y.shape == (2, cue.N) and np.isfinite(y).all()
     os.makedirs(OUT, exist_ok=True)
@@ -89,6 +89,27 @@ def make_report(pid, cue, y):
         off = (j * 0.002 - h['t']) * 1000
         offs.append(off)
         print(f"   {h['t']:6.2f} {h['kind']:7s} {off:+6.0f} ms  (rise {d.max():4.1f} dB)")
+    hpm2 = signal.sosfilt(signal.butter(2, 150, 'hp', fs=SR, output='sos'), mono)
+    fr5 = ix(0.005)
+    nf5 = len(hpm2) // fr5
+    env = np.sqrt(np.mean(hpm2[:nf5 * fr5].reshape(nf5, fr5) ** 2, axis=1))
+    print('  amplitude-modulation depth 8-30 Hz (max over 3 s windows, >150 Hz content):')
+    W = 600
+    win = np.hanning(W)
+    fq5 = np.fft.rfftfreq(W, 0.005)
+    band = (fq5 >= 8) & (fq5 <= 30)
+    for s_ in cue.secs:
+        a, b = int(s_.t0 / 0.005), int(s_.t1 / 0.005)
+        best, bt = 0.0, 0.0
+        for st in range(a, max(a + 1, b - W + 1), 300):
+            e = env[st:st + W]
+            if len(e) < W or e.mean() < 10 ** (-60 / 20):
+                continue
+            A = 2 * np.abs(np.fft.rfft((e - e.mean()) * win)) / win.sum() / e.mean()
+            d = float(A[band].max())
+            if d > best:
+                best, bt = d, st * 0.005
+        print(f"   {s_.name:10s} peak-bin depth {best:5.2f} (at {bt:5.1f}s)")
     bands = [(20, 120), (120, 500), (500, 2000), (2000, 5000), (5000, 10000), (10000, 20000)]
     F = np.abs(np.fft.rfft(mono)) ** 2
     fq = np.fft.rfftfreq(len(mono), 1 / SR)

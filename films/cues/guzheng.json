@@ -1,150 +1,260 @@
 {
   "id": "guzheng",
   "title": "古筝行动 / Operation Guzheng",
-  "duration": 62.0,
-  "direction": "Panama Canal at golden hour. A giant tanker sails into fifty invisible nano-filaments strung across the cut like the strings of a guzheng, and is silently sliced into half-metre sheets that slide apart like a pushed deck of cards. Instrument voice: a solo plucked guzheng (Karplus-Strong style, D minor pentatonic D-F-G-A-C, with pitch bends and slow vibrato after the pluck), over a very low bowed-string drone on D. Restraint first: the horror is how quiet it is. The slide (40s) is the only loud passage: tremolo strings, deep impacts, and a thin metallic 'fingernails on glass' screech texture. Ends on the same lonely plucked note it began with.",
+  "duration": 110.0,
+  "direction": "Panama Canal at golden hour. A giant tanker sails into fifty invisible nano-filaments strung across the cut like the strings of a guzheng, and is silently sliced into half-metre sheets that slide apart like a pushed deck of cards. Instrument voice: a solo plucked guzheng (Karplus-Strong style, D minor pentatonic D-F-G-A-C, with pitch bends and slow vibrato after the pluck), over a very low bowed-string drone on D. Restraint first: the horror is how quiet it is. The slide (40s) is the only loud passage: tremolo strings, deep impacts, and a thin metallic 'fingernails on glass' screech texture. Ends on the same lonely plucked note it began with. NEW IN THIS LONGER CUT: a long interior passage inside the ship's control room (40-62s) - server racks humming, empty chairs, screens glowing - through which the fifty filaments sweep in slow motion; then (80-88s) the same room shearing apart layer by layer. The interior is the heart of the piece: intimate, close-miked, almost silent, each filament crossing an object marked by a single very soft high guzheng harmonic.",
   "sections": [
     {
       "t": 0.0,
-      "name": "title",
-      "level": 1,
-      "note": "black screen title. One low D drone fades in, two slow guzheng plucks with long tails."
+      "name": "hook",
+      "level": 4,
+      "note": "COLD OPEN, no title card and no fade-in: the film starts mid-catastrophe on its most violent image (the ship shearing apart into sheets). The music must hit at once: a full impact on the very first sample after the 30 ms lead-in, tremolo strings, a guzheng glissando sweeping across all strings, the metallic screech. It is cut off dead at 5.0s."
     },
     {
-      "t": 4.0,
+      "t": 5.0,
       "name": "canal",
       "level": 1,
-      "note": "wide aerial from astern: the tanker sails up the calm canal into the low sun. Slow guzheng phrase, lots of air, warm."
+      "note": "hard cut back in time to total calm: wide aerial from astern, the tanker sails up the canal into the low sun (the title appears over this picture). After the cut leave about half a second of near silence (reverb tail of the hook only), then the low D drone and a slow, warm guzheng phrase with lots of air."
     },
     {
-      "t": 12.0,
+      "t": 14.0,
       "name": "strings",
       "level": 1,
       "note": "fifty filaments rise dripping out of the water and stretch across the frame like zither strings, the ship approaching behind them. Single plucks land on the listed pluck hits, like someone testing strings. Slightly colder harmony."
     },
     {
-      "t": 19.0,
+      "t": 24.0,
       "name": "approach",
       "level": 2,
       "note": "the tanker looms in. Drone thickens, slow heartbeat-like low pulse (about 50 bpm), guzheng tremolo figure rising in pitch."
     },
     {
-      "t": 27.15,
+      "t": 32.2,
       "name": "contact",
       "level": 0,
       "note": "the bow meets the wires. Everything cuts to almost nothing: one very high, thin, glassy sustained tone and faint metallic shimmer. Unnervingly calm."
     },
     {
-      "t": 33.0,
+      "t": 40.0,
+      "name": "interior",
+      "level": 1,
+      "note": "INSIDE the ship: a control room, server racks, empty chairs, glowing screens. A low electrical room-tone hum (a soft 50 Hz-ish machine drone with a faint fifth above it), nothing else for the first 6 seconds. From 46s the filaments sweep slowly through the room: use the listed 'pluck' hits as very soft, high, bell-like guzheng harmonics (octave harmonics, long reverb), one per filament crossing, irregularly spaced. After 54s the harmonics stop; only the hum and one held uneasy semitone (D against E-flat) remain. Nothing in the room has moved."
+    },
+    {
+      "t": 62.0,
       "name": "passing",
       "level": 1,
-      "note": "the ship glides on, apparently intact. Drone returns very quietly, uneasy semitone clash (D against E-flat), sparse high plucks."
+      "note": "outside again: the ship glides on, apparently intact, golden light. Drone returns quietly, sparse low plucks, the E-flat clash persists underneath."
     },
     {
-      "t": 40.2,
+      "t": 70.0,
+      "name": "stillness",
+      "level": 0,
+      "note": "a held breath: the whole ship in one frame, sailing on as if nothing happened. Almost silent; the high glassy tone from 'contact' returns alone, with a riser growing underneath toward 76s."
+    },
+    {
+      "t": 76.0,
       "name": "slide",
       "level": 4,
-      "note": "the sheets shear apart; at 46s the cut reveals the staircase of mirror-smooth cut faces blazing with the sunset. Full weight: tremolo strings, deep impacts, screeching metallic texture, fast guzheng glissandi (sweeping across all strings)."
+      "note": "the sheets shear apart. Full weight: tremolo strings, deep impacts, screeching metallic texture, fast guzheng glissandi sweeping across all strings. At 80-88s we are back INSIDE the room as it comes apart in layers - keep the intensity but make it darker and closer: more low end, the screech nearer, glissandi answering each other left and right. At 88s back outside: the widest, brightest moment (staircase of mirror-smooth cut faces blazing in the sunset)."
     },
     {
-      "t": 50.0,
+      "t": 96.0,
       "name": "aftermath",
       "level": 1,
       "note": "high aerial of the fanned-out wreck beached on the bank at sunset. Everything decays; the opening guzheng phrase returns, slower."
     },
     {
-      "t": 55.0,
+      "t": 103.0,
       "name": "endcard",
       "level": 1,
-      "note": "end card. Last plucked D with a long tail, drone fades to silence by 61.5s."
+      "note": "end card. Last plucked D with a long tail, drone fades to silence by 109.5s."
     }
   ],
   "hits": [
     {
-      "t": 0.6,
+      "t": 0.04,
+      "kind": "impact",
+      "gain": 1.0
+    },
+    {
+      "t": 1.9,
+      "kind": "boom",
+      "gain": 0.8
+    },
+    {
+      "t": 3.4,
+      "kind": "impact",
+      "gain": 0.9
+    },
+    {
+      "t": 5.6,
       "kind": "pluck",
       "gain": 0.9
     },
     {
-      "t": 2.4,
+      "t": 8.0,
       "kind": "pluck",
       "gain": 0.7
     },
     {
-      "t": 12.0,
+      "t": 14.0,
       "kind": "glass",
       "gain": 0.5
     },
     {
-      "t": 13.6,
+      "t": 15.8,
       "kind": "pluck",
       "gain": 0.8
     },
     {
-      "t": 15.2,
+      "t": 17.6,
       "kind": "pluck",
       "gain": 0.8
     },
     {
-      "t": 16.8,
+      "t": 19.4,
       "kind": "pluck",
       "gain": 0.9
     },
     {
-      "t": 19.0,
+      "t": 21.4,
+      "kind": "pluck",
+      "gain": 0.9
+    },
+    {
+      "t": 24.0,
       "kind": "sub",
       "gain": 0.7
     },
     {
-      "t": 27.15,
+      "t": 32.25,
       "kind": "glass",
       "gain": 1.0
     },
     {
-      "t": 40.2,
+      "t": 46.2,
+      "kind": "pluck",
+      "gain": 0.35
+    },
+    {
+      "t": 47.1,
+      "kind": "pluck",
+      "gain": 0.3
+    },
+    {
+      "t": 47.7,
+      "kind": "pluck",
+      "gain": 0.35
+    },
+    {
+      "t": 48.6,
+      "kind": "pluck",
+      "gain": 0.3
+    },
+    {
+      "t": 49.3,
+      "kind": "pluck",
+      "gain": 0.4
+    },
+    {
+      "t": 50.4,
+      "kind": "pluck",
+      "gain": 0.3
+    },
+    {
+      "t": 51.2,
+      "kind": "pluck",
+      "gain": 0.35
+    },
+    {
+      "t": 52.3,
+      "kind": "pluck",
+      "gain": 0.3
+    },
+    {
+      "t": 53.4,
+      "kind": "pluck",
+      "gain": 0.4
+    },
+    {
+      "t": 62.0,
+      "kind": "swell",
+      "gain": 0.6
+    },
+    {
+      "t": 76.0,
       "kind": "impact",
       "gain": 1.0
     },
     {
-      "t": 41.6,
+      "t": 79.0,
+      "kind": "boom",
+      "gain": 0.8
+    },
+    {
+      "t": 80.0,
+      "kind": "impact",
+      "gain": 0.9
+    },
+    {
+      "t": 81.9,
       "kind": "boom",
       "gain": 0.9
     },
     {
-      "t": 42.75,
-      "kind": "impact",
+      "t": 85.5,
+      "kind": "boom",
       "gain": 0.8
     },
     {
-      "t": 46.0,
+      "t": 88.0,
       "kind": "impact",
       "gain": 1.0
     },
     {
-      "t": 50.0,
+      "t": 90.5,
+      "kind": "boom",
+      "gain": 0.9
+    },
+    {
+      "t": 92.5,
+      "kind": "impact",
+      "gain": 0.8
+    },
+    {
+      "t": 96.0,
       "kind": "sub",
       "gain": 0.8
     },
     {
-      "t": 55.0,
+      "t": 103.0,
       "kind": "pluck",
       "gain": 1.0
     }
   ],
   "risers": [
     {
-      "from": 22.0,
-      "to": 27.15
+      "from": 27.0,
+      "to": 32.2
     },
     {
-      "from": 37.5,
-      "to": 40.2
+      "from": 72.0,
+      "to": 76.0
     }
   ],
   "silences": [
     {
-      "from": 27.15,
-      "to": 27.65
+      "from": 5.0,
+      "to": 5.5
+    },
+    {
+      "from": 32.2,
+      "to": 32.7
+    },
+    {
+      "from": 40.0,
+      "to": 40.4
     }
   ]
 }

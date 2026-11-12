@@ -27,3 +27,7 @@ html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
 #end .series { font-family: "Songti SC", "STSong", serif; font-weight: 700; font-size: 34px; letter-spacing: .36em; padding-left: .36em; text-shadow: 0 2px 22px rgba(0,0,0,.8); }
 #end .hook { margin-top: 22px; font-size: 22px; letter-spacing: .2em; padding-left: .2em; color: rgba(243,239,232,.78); text-shadow: 0 1px 14px rgba(0,0,0,.8); }
 #end .url { margin-top: 30px; font-family: "SF Mono", Menlo, monospace; font-size: 20px; letter-spacing: .08em; color: rgba(243,239,232,.62); padding: 9px 22px; border: 1px solid rgba(243,239,232,.25); border-radius: 999px; background: rgba(0,0,0,.25); }
+
+#title.left { left: 120px; right: auto; top: 62%; text-align: left; transform-origin: left center; }
+#title.left .eyebrow { justify-content: flex-start; padding-left: 0; } #title.left .eyebrow i:first-child { display: none; }
+#title.left h1 { font-size: 112px; padding-left: 0; } #title.left .en, #title.left .sub { padding-left: 0; }

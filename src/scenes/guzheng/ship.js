@@ -6,7 +6,10 @@ import * as THREE from 'three';
 import { clamp } from '../../core/util.js';
 import { WIRES, NSLAB, SHIP, slabOf, patchStd, depthFor } from './common.js';
 
-export const MAT = { HULL: 0, DECK: 1, HOUSE: 2, FUNNEL: 3, PIPE: 4, CRANE: 5, DISH: 6, BOAT: 7, MAST: 8, CAP: 9, BASEHOUSE: 10 };
+export const MAT = { HULL: 0, DECK: 1, HOUSE: 2, FUNNEL: 3, PIPE: 4, CRANE: 5, DISH: 6, BOAT: 7, MAST: 8, CAP: 9, BASEHOUSE: 10,
+  WALL: 11, FLOOR: 12, RACK: 13, DESK: 14, SCREEN: 15, LAMP: 16, CHAIR: 17, TRAY: 18 };
+// the control room of the Second Red Coast Base, inside the mid-forward deckhouse (ship-local metres)
+export const ROOM = { x0: 34.5, x1: 71.5, z: 13, y0: 9.9, y1: 14.6, strips: [-6.5, 0, 6.5] };
 
 // ---------- hull form ----------
 export function halfBeam(lx, y) {
@@ -55,7 +58,7 @@ class Builder {
     if (flip) this.idx.push(id[0], id[2], id[1], id[0], id[3], id[2]); else this.idx.push(id[0], id[1], id[2], id[0], id[2], id[3]);
   }
   // st(y) -> [[x, z0, z1], ...] with x increasing; the station count must not depend on y.
-  solid({ st, y0, y1, mat, topMat, capMat = MAT.CAP, tower, nz = 1, ySeg = 1e9, normalFn, noBottom = true, noTop = false, hullFoot = false }) {
+  solid({ st, y0, y1, mat, topMat, botMat, capMat = MAT.CAP, tower, nz = 1, ySeg = 1e9, normalFn, noBottom = true, noTop = false, hullFoot = false }) {
     const cuts = [y0];
     for (let k = 0; k < WIRES.n; k++) { const y = WIRES.y0 + k * WIRES.h; if (y > y0 + 1e-4 && y < y1 - 1e-4) cuts.push(y); }
     cuts.push(y1);
@@ -94,7 +97,7 @@ class Builder {
           if (c === cuts.length - 2) { if (!noTop) cap(B, yb, 1, topMat ?? mat, 0); } else if (isCut(yb)) cap(B, yb, 1, capMat, 1);
         }
         if (s === 0) {
-          if (c === 0) { if (!noBottom) cap(A, ya, -1, mat, 0); } else if (isCut(ya)) cap(A, ya, -1, capMat, 1);
+          if (c === 0) { if (!noBottom) cap(A, ya, -1, botMat ?? mat, 0); } else if (isCut(ya)) cap(A, ya, -1, capMat, 1);
         }
       }
     }
@@ -169,7 +172,41 @@ export function buildShip() {
 
   // the Second Red Coast Base: mid-forward deckhouse, antenna pedestal
   const base = deckT(72);
-  b.solid({ st: box(34, 72, -13.5, 13.5), y0: D, y1: D + 8, mat: MAT.BASEHOUSE, topMat: MAT.DECK, tower: base, nz: 3 });
+  // --- a real room instead of a solid block: floor, four walls with window openings, roof, and what stands in it ---
+  {
+    const R = ROOM, W = 0.5, X0 = 34, X1 = 72, Z = 13.5, s = (o) => b.solid({ tower: base, ...o });
+    s({ st: box(X0, X1, -Z, Z), y0: D, y1: R.y0, mat: MAT.BASEHOUSE, topMat: MAT.FLOOR, nz: 4 });                                  // floor
+    s({ st: box(X0, X1, -Z, Z), y0: R.y1, y1: D + 8, mat: MAT.BASEHOUSE, topMat: MAT.DECK, botMat: MAT.WALL, noBottom: false, nz: 4 });   // roof slab; its underside is the ceiling
+    for (const sg of [-1, 1]) {
+      const z0 = sg > 0 ? Z - W : -Z, z1 = sg > 0 ? Z : -Z + W, sill = 11.4, head = 13.4;
+      s({ st: box(X0, X1, z0, z1), y0: R.y0, y1: sill, mat: MAT.WALL });
+      s({ st: box(X0, X1, z0, z1), y0: head, y1: R.y1, mat: MAT.WALL });
+      for (let x = X0; x < X1 - 0.1; x += 4.75) s({ st: box(x, Math.min(X1, x + 1.75), z0, z1, 2), y0: sill, y1: head, mat: MAT.WALL });   // piers between 3 m windows
+    }
+    s({ st: box(X0, X0 + W, -Z + W, Z - W, 1), y0: R.y0, y1: R.y1, mat: MAT.WALL, nz: 4 });
+    // forward wall: the big display in the middle, a tall window either side that lets the low sun rake down the room
+    s({ st: box(X1 - W, X1, -Z + W, Z - W, 1), y0: R.y0, y1: 11.2, mat: MAT.WALL, nz: 4 });
+    s({ st: box(X1 - W, X1, -Z + W, Z - W, 1), y0: 13.7, y1: R.y1, mat: MAT.WALL, nz: 4 });
+    for (const [za, zb] of [[-Z + W, -12.1], [-6.5, 6.5], [12.1, Z - W]]) s({ st: box(X1 - W, X1, za, zb, 1), y0: 11.2, y1: 13.7, mat: MAT.WALL, nz: 2 });
+    // server racks: two rows flanking a central aisle, two more toward the windows
+    for (const [z0, z1, xa, xb] of [[-2.6, -1.6, 38, 60], [1.6, 2.6, 38, 60], [-8.6, -7.6, 38, 64], [7.6, 8.6, 38, 64]])
+      s({ st: box(xa, xb, z0, z1, 2), y0: R.y0, y1: R.y0 + 2.15, mat: MAT.RACK });
+    // console desk with a line of monitors, chairs, and the big display on the forward wall
+    s({ st: box(63.2, 64.3, -5.2, 5.2, 1), y0: R.y0, y1: R.y0 + 0.74, mat: MAT.DESK, nz: 4 });
+    for (let k = 0; k < 8; k++) { const z = -4.55 + k * 1.3;
+      s({ st: box(63.86, 63.94, z - 0.05, z + 0.05, 1), y0: R.y0 + 0.74, y1: R.y0 + 0.9, mat: MAT.DESK });
+      s({ st: box(63.84, 63.9, z - 0.46, z + 0.46, 1), y0: R.y0 + 0.86, y1: R.y0 + 1.42, mat: MAT.SCREEN }); }
+    for (let k = 0; k < 5; k++) { const z = -4.2 + k * 2.1;
+      s({ st: box(62.1, 62.6, z - 0.25, z + 0.25, 1), y0: R.y0 + 0.36, y1: R.y0 + 0.46, mat: MAT.CHAIR });
+      s({ st: box(62.3, 62.4, z - 0.04, z + 0.04, 1), y0: R.y0, y1: R.y0 + 0.36, mat: MAT.CHAIR });
+      s({ st: box(62.06, 62.12, z - 0.24, z + 0.24, 1), y0: R.y0 + 0.46, y1: R.y0 + 1.02, mat: MAT.CHAIR }); }
+    s({ st: box(71.3, 71.5, -5.6, 5.6, 1), y0: 11.0, y1: 13.9, mat: MAT.SCREEN, nz: 4 });
+    // ceiling: light strips and cable trays
+    for (const z of R.strips) s({ st: box(36, 70, z - 0.22, z + 0.22, 3), y0: R.y1 - 0.09, y1: R.y1, mat: MAT.LAMP, noBottom: false });
+    for (const z of [-3.6, 3.6, -10.6, 10.6]) s({ st: box(35.5, 70.5, z - 0.2, z + 0.2, 3), y0: R.y1 - 0.42, y1: R.y1 - 0.3, mat: MAT.TRAY, noBottom: false });
+    for (const z of [-3.6, 3.6]) for (let x = 39; x <= 67; x += 7) s({ st: box(x - 0.2, x + 0.2, z - 0.09, z + 0.09, 1), y0: R.y1 - 0.5, y1: R.y1 - 0.42, mat: MAT.LAMP, noBottom: false });   // battery emergency lights
+    for (const [x, z] of [[35.2, -12.3], [35.2, 12.3], [70.8, -12.3], [70.8, 12.3]]) s({ st: cyl(x, z, 0.16, 0.16, 6), y0: R.y0, y1: R.y1, mat: MAT.PIPE, normalFn: cylNormal(x, z, 0.16, 0.16) });
+  }
   b.solid({ st: box(40, 62, -9, 9), y0: D + 8, y1: D + 11, mat: MAT.BASEHOUSE, tower: base, nz: 2 });
   b.solid({ st: cyl(51, 0, 3.4, 3.4, 12), y0: D + 11, y1: 27.4, mat: MAT.MAST, tower: base, nz: 2, normalFn: cylNormal(51, 0, 3.4, 3.4) });
   for (const [x, z, r, h] of [[66, -8, 2.4, 4.2], [66, 8, 1.7, 3]]) b.solid({ st: cyl(x, z, r, r, 8), y0: D + 8, y1: D + 8 + h, mat: MAT.DISH, tower: base, normalFn: cylNormal(x, z, r, r) });
@@ -252,6 +289,10 @@ const SURFACE = /* glsl */`
   vec3 L = vL; vec3 alb = vec3(.5); float rough = .6, metal = 0.;
   float nz1 = vnoise(L.xy * .35) * .6 + vnoise(L.xy * 1.7 + 7.) * .4, nz2 = vnoise(L.xz * .5 + 3.);
   bool side = abs(vN0.y) < .5;
+  float since = ((uShipX + L.x) - uCutX) / 8.;                             // seconds since the filaments passed this spot
+  float pw = 1. - smoothstep(-.05, .05, since);                             // ceiling lights: gone at once
+  float emg = smoothstep(.35, 1.1, since);                                  // battery emergency lighting cuts in a moment later
+  float pwB = 1. - smoothstep(0., .8, since - 6. * hash11(vSlab * 3.7 + floor(L.z / 1.3) * .31));     // electronics fail one cut band at a time
   float h = abs(vN0.z) > abs(vN0.x) ? L.x : L.z;                    // horizontal coordinate along a wall
   if (vInfo.y > .5) {
     // --- exposed cut face: a plan view of whatever was at this height ---
@@ -259,7 +300,7 @@ const SURFACE = /* glsl */`
     vec2 cell = mix(vec2(9.6, 8.5), vec2(3.6, 3.1), house);
     vec2 id = floor(q / cell); float r = hash12(id + floor(vSlab * .25) * 7.);
     float wall = max(lineAA(q.x + (hash11(id.y) - .5) * cell.x * .5 * house, cell.x, .055), lineAA(q.y, cell.y, .055));
-    float frames = lineAA(q.x, 0.8, .02) * (1. - house) * .16;
+    float frames = lineAA(q.x, 0.8, .02) * (1. - house) * .16 * (1. - smoothstep(.08, .25, fwidth(q.x)));
     // the filaments leave a cut as smooth as a mirror: bare steel that throws back the whole sky
     float sheetTone = .82 + .3 * hash11(vSlab * 7.13);
     vec3 steelC = vec3(.80, .79, .77) * sheetTone;
@@ -307,11 +348,12 @@ const SURFACE = /* glsl */`
       float frame = (bridge ? 0. : 1.) * (1. - smoothstep(ww + .08, ww + .12, wx)) * smoothstep(1.13, 1.17, fy) * smoothstep(2.17, 2.13, fy);
       float has = (m == 10) ? step(.55, hash11(wid)) : 1.;
       float win = inY * (1. - smoothstep(ww - .04, ww, wx)) * has;
+      float wl = 1. - smoothstep(.1, .34, fwidth(h) / per + fwidth(L.y) / 3.);          // far away the pattern would only shimmer
+      win *= wl; frame *= wl;
       float lit = step(bridge ? .9 : .8, hash11(wid * 1.37 + 5.)) * uLit;
       alb = mix(alb, alb * .72, frame * has * (1. - win)); alb = mix(alb, vec3(.015, .02, .028), win); rough = mix(.55, .06, win);
       alb *= 1. - .1 * lineAA(h, 4.8, .012);                                                           // plate seams
-      alb = mix(alb, vec3(.5, .52, .5), lineAA(fy - 1.02, 30., .035) * .0);
-      gEmis = win * lit * vec3(1., .6, .28) * 1.1 * (.6 + .4 * hash11(wid * 3.1));
+      gEmis = win * lit * vec3(1., .6, .28) * .6 * (.6 + .4 * hash11(wid * 3.1));
       alb *= 1. - .22 * smoothstep(.12, 0., fy) ;                                                    // deck edge line
       float drip = smoothstep(.5, 1., vnoise(vec2(h * 1.3, L.y * .08))) * .35;
       alb = mix(alb, vec3(.33, .2, .1), drip * smoothstep(1.2, .2, fy));
@@ -326,18 +368,101 @@ const SURFACE = /* glsl */`
   else if (m == 5) { alb = vec3(.72, .46, .04) * (.85 + .25 * nz1); rough = .5; }
   else if (m == 6) { alb = vec3(.82, .82, .8); rough = .42; }
   else if (m == 7) { alb = vec3(.86, .22, .03); rough = .45; }
-  else { alb = vec3(.6, .61, .6) * (.85 + .2 * nz1); rough = .5; metal = .3; }
+  else if (m == 8) { alb = vec3(.6, .61, .6) * (.85 + .2 * nz1); rough = .5; metal = .3; }
+  else if (m == 11) {
+    // --- control-room walls: white steel outside, pale green paint and a darker dado inside ---
+    bool outer = abs(L.z) > 13.45 || L.x < 34.05 || L.x > 71.95;
+    if (outer) { alb = vec3(.74, .74, .71) * (.9 + .12 * nz1); alb *= 1. - .1 * lineAA(h, 4.8, .012); rough = .55;
+      alb = mix(alb, vec3(.33, .2, .1), smoothstep(.5, 1., vnoise(vec2(h * 1.3, L.y * .08))) * .3 * smoothstep(11.4, 10.2, L.y)); }
+    else if (vN0.y < -.5) { vec2 t = abs(fract(L.xz / 1.2) - .5); alb = vec3(.5, .51, .5) * (1. - .3 * smoothstep(.47, .5, max(t.x, t.y)) * (1. - smoothstep(.03, .1, fwidth(L.x)))); rough = .8; }
+    else { alb = mix(vec3(.46, .52, .47), vec3(.56, .6, .55), nz1); alb *= 1. - .16 * lineAA(h, 1.2, .006);
+      alb = mix(alb, alb * vec3(.5, .56, .6), smoothstep(10.95, 10.9, L.y)); rough = .7; }
+  } else if (m == 12) {
+    // raised-floor tiles, slightly glossy
+    vec2 t = abs(fract(L.xz / .6) - .5); float j = smoothstep(.484, .5, max(t.x, t.y)) * (1. - smoothstep(.015, .06, fwidth(L.x)));
+    alb = mix(vec3(.105, .11, .12), vec3(.14, .145, .155), hash12(floor(L.xz / .6))) * (1. - .55 * j);
+    alb = mix(alb, vec3(.55, .44, .06), lineAA(abs(L.z) - 1.15, 100., .04) * step(37., L.x) * step(L.x, 61.) * .7);       // aisle marking
+    rough = .26;
+  } else if (m == 13) {
+    // --- server racks: perforated doors, a column of status LEDs per unit ---
+    alb = vec3(.07, .074, .08); rough = .3; metal = .4;
+    if (abs(vN0.z) > .5) {
+      float u = L.x / .6, fx = fract(u), id = floor(u) + step(0., L.z) * 91. + floor(abs(L.z)) * 17., yy = L.y - 9.9;
+      float door = smoothstep(.03, .05, fx) * smoothstep(.97, .95, fx) * smoothstep(.06, .09, yy) * smoothstep(2.12, 2.09, yy);
+      float lod = 1. - smoothstep(.004, .018, fwidth(L.x));
+      vec2 pq = fract(vec2(L.x, L.y) * 42.) - .5; float perf = smoothstep(.32, .2, length(pq)) * lod;
+      alb = mix(vec3(.02), alb, door) * (1. - .5 * perf * door);
+      alb = mix(alb, vec3(.2, .21, .22), (1. - smoothstep(.0, .012, abs(fx - .5) - .47)) * 0. + smoothstep(.93, .95, fx) * door * .0);
+      float slot = floor(yy / .048), sy = fract(yy / .048);
+      float on = step(.42, hash12(vec2(id, slot)));
+      float blink = .6 + .4 * sin(uTime * (.5 + 1.8 * hash12(vec2(id * 1.3, slot))) + hash12(vec2(slot, id) + 3.) * 6.283);   // slow breathing, never a strobe
+      vec3 lc = mix(vec3(.1, 1., .38), vec3(1., .55, .08), step(.86, hash12(vec2(slot * 1.7, id))));
+      lc = mix(lc, vec3(.25, .55, 1.), step(.93, hash12(vec2(id, slot * 2.3))));
+      float inCol = step(.15, yy) * step(yy, 2.0);
+      float led = smoothstep(.02, .012, abs(fx - .13)) * smoothstep(.2, .3, sy) * smoothstep(.8, .7, sy) * inCol * on;
+      float ll = 1. - smoothstep(.008, .04, fwidth(L.y));
+      gEmis += lc * (led * ll * 3.2 + (1. - ll) * smoothstep(.05, .0, abs(fx - .13)) * .3 * inCol) * blink * pwB;
+    }
+  } else if (m == 14) { alb = vN0.y > .5 ? vec3(.1, .098, .095) : vec3(.2, .19, .18) * (.85 + .3 * nz2); rough = vN0.y > .5 ? .22 : .42; }
+  else if (m == 15) {
+    // --- screens (they face aft): rows of scrolling glyph blocks and a slow trace ---
+    alb = vec3(.02); rough = .16;
+    if (vN0.x < -.5) {
+      float big = step(70., L.x), sc = mix(1., 5., big); vec2 uv = vec2(L.z, L.y) / sc;
+      float row = floor(uv.y / .03), cx = floor((uv.x + uTime * .012 * (hash11(row) - .3)) / .013);
+      float lod = 1. - smoothstep(.0025, .01, fwidth(L.y) / sc);
+      float txt = step(.5, hash12(vec2(cx, row))) * step(.3, fract(uv.y / .03)) * step(hash11(row + 7.), .78) * lod;
+      float y0 = mix(10.85, 11.55, big), tr = smoothstep(.012 * sc, .004 * sc, abs(L.y - y0 - .08 * sc * sin(L.z * 9. / sc + uTime * .9) * sin(L.z * 2.3 / sc - uTime * .4)));
+      vec3 e = vec3(.012, .04, .05) + vec3(.1, .85, .6) * txt * .55 + vec3(.05, .3, .22) * (1. - lod) * .28 + vec3(.9, .7, .2) * tr * .9;
+      // a cut panel keeps showing a frozen, torn image for a moment before it dies
+      float frozen = smoothstep(0., .1, since) * pwB;
+      e = mix(e, vec3(.5, .6, .62) * (.25 + .75 * hash12(vec2(floor(L.z * 60.), vSlab))) * .5, frozen * .8);
+      gEmis += e * 2.6 * pwB; alb = vec3(.01);
+    }
+  } else if (m == 16) { alb = vec3(.75); rough = .5;
+    if (L.y > 14.3) { if (vN0.y < -.5) gEmis += vec3(1., .96, .88) * 3.4 * pw; }
+    else gEmis += vec3(1., .2, .06) * 5. * emg; }
+  else if (m == 17) { alb = vec3(.05, .06, .09); rough = .75; }
+  else { alb = vec3(.3, .31, .32) * (.85 + .2 * nz1); rough = .5; metal = .55; }
+
+  // --- the control room is lit by its own ceiling strips, which die as the filaments cut the power ---
+  float inRoom = step(34.4, L.x) * step(L.x, 71.6) * step(abs(L.z), 13.05) * step(9.85, L.y) * step(L.y, 14.62);
+  if (inRoom > .5 && vInfo.y < .5) {
+    vec3 rl = vec3(0.);
+    for (int i = 0; i < 3; i++) { vec3 d = vec3(0., 14.55 - L.y, (float(i) - 1.) * 6.5 - L.z); float r2 = dot(d, d);
+      rl += max(dot(vN0, d * inversesqrt(r2 + 1e-4)), 0.) / (1. + r2 * .12); }
+    gEmis += alb * (rl * vec3(1., .96, .88) * 1.7 * pw + vec3(.028, .032, .042));
+    // red emergency lamps under the cable trays, every seven metres
+    vec3 el = vec3(0.); float ex = clamp(floor((L.x - 39.) / 7. + .5), 0., 4.) * 7. + 39.;
+    for (int i = 0; i < 2; i++) for (int j = -1; j <= 1; j++) {
+      vec3 d = vec3(ex + float(j) * 7. - L.x, 14.1 - L.y, (float(i) * 2. - 1.) * 3.6 - L.z); float r2 = dot(d, d);
+      el += max(dot(vN0, d * inversesqrt(r2 + 1e-4)) * .8 + .2, 0.) / (1. + r2 * .2) * step(38.5, ex + float(j) * 7.) * step(ex + float(j) * 7., 67.5); }
+    gEmis += alb * el * vec3(1., .2, .07) * 2.6 * emg;
+    // glossy surfaces mirror the strips themselves (floor tiles, rack doors, dark screens)
+    vec3 Vv = normalize(cameraPosition - vWp), Rr = reflect(-Vv, vN0);
+    if (Rr.y > .02 && rough < .5) {
+      float tt = (14.55 - L.y) / Rr.y; vec3 hp = L + Rr * tt;
+      float blur = .06 + rough * tt * .22, m3 = 0.;
+      for (int i = 0; i < 3; i++) m3 += 1. - smoothstep(.22, .22 + blur, abs(hp.z - (float(i) - 1.) * 6.5));
+      float on = (1. - smoothstep(-.05, .05, ((uShipX + hp.x) - uCutX) / 8.)) * step(36., hp.x) * step(hp.x, 70.);
+      float fr = .04 + .96 * pow(1. - max(dot(vN0, Vv), 0.), 5.);
+      gEmis += vec3(1., .96, .88) * 3.4 * m3 * on * fr * (1. - rough) / (1. + blur * 6.);
+    }
+    gOcc = .1;
+  }
 
   // filament seams: appear only on the part of the ship that has already crossed the wire plane
   if (vInfo.y < .5 && side) {
     float fy = (L.y - ${WIRES.y0.toFixed(2)}) / ${WIRES.h.toFixed(2)};
     float inWire = step(-.01, fy) * step(fy, ${(WIRES.n - 1).toFixed(1)} + .01);
     float d = abs(fract(fy + .5) - .5) * ${WIRES.h.toFixed(2)}, aa = fwidth(L.y) * 1.1;
-    float seam = (1. - smoothstep(.006, .012 + aa, d)) * inWire * min(1., .03 / max(aa, 1e-5));
+    float lodS = 1. - smoothstep(.05, .16, aa);                                   // closer than ~3 px apart they would only crawl
+    float seam = (1. - smoothstep(.006, .012 + aa, d)) * inWire * min(1., .03 / max(aa, 1e-5)) * lodS;
+    float glowL = exp(-d * d / (.0009 + aa * aa * 1.5)) * inWire * lodS * min(1., .05 / max(aa, 1e-5));        // a soft-edged glow, wide enough to anti-alias
     float passed = smoothstep(0., .25, (uShipX + L.x) - uCutX);
     float hot = exp(-max(0., (uShipX + L.x) - uCutX) * .55) * passed;
     alb *= 1. - seam * passed * .5;
-    gEmis += seam * hot * vec3(1.6, .75, .25) * 1.2;
+    gEmis += glowL * hot * vec3(1.3, .62, .22) * .7;
   }
   diffuseColor.rgb = alb; gRough = clamp(rough, .04, 1.); gMetal = metal;
 }`;

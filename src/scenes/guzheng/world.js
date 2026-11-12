@@ -49,7 +49,8 @@ export function bakeHeight() {
 const INNER = { x0: -600, x1: 800, z0: -420, z1: 420 };
 const TERRAIN_SURFACE = /* glsl */`{
   vec3 N = normalize(vTN); float slope = 1. - N.y; vec2 q = vWp.xz; float y = vWp.y;
-  float n1 = fbm(q * .035), n2 = fbm(q * .21 + 11.), n3 = vnoise(q * 1.7);
+  float lodG = 1. - smoothstep(.12, .5, fwidth(q.x) + fwidth(q.y));
+  float n1 = fbm(q * .035), n2 = fbm(q * .21 + 11.), n3 = mix(.5, vnoise(q * 1.7), lodG);
   vec3 strata = mix(vec3(.26, .20, .155), vec3(.38, .31, .24), smoothstep(.35, .65, vnoise(vec2(n1 * 3., y * .32 + n2 * 2.))));
   strata = mix(strata, vec3(.15, .135, .13), smoothstep(.6, .85, vnoise(q * .012 + 40.)) * .7);          // dark basalt
   vec3 rock = strata * (.7 + .5 * n3) * (.75 + .5 * vnoise(vec2(q.x * .6 + q.y * .6, y * 2.2)));
@@ -65,12 +66,12 @@ const TERRAIN_SURFACE = /* glsl */`{
   c = mix(c, gravel, berm * .9);
   c = mix(c, vec3(.44, .42, .38), berm * lineAAt(abs(fract(vWp.z * .02) - .5) * 0., 1.) * 0.);
   float riprap = smoothstep(3.7, 2.9, y);
-  float stones = vnoise(q * 1.9) * .6 + vnoise(q * 4.7) * .4;
+  float stones = mix(.5, vnoise(q * 1.9) * .6 + vnoise(q * 4.7) * .4, lodG);
   c = mix(c, vec3(.25, .24, .225) * (.45 + .9 * stones), riprap);
   c = mix(c, c * vec3(.28, .30, .27), smoothstep(.9, .05, y));                                            // wet band at the waterline
   c = mix(c, vec3(.04, .05, .035), smoothstep(-.1, -1.5, y));
   diffuseColor.rgb = c; gRough = mix(.95, .5, smoothstep(.9, .0, y));
-  gBump = vec3(vnoise(q * .9) - .5, 0., vnoise(q * .9 + 31.) - .5) * (.5 * veg + .35 * riprap + .2);
+  gBump = vec3(vnoise(q * .9) - .5, 0., vnoise(q * .9 + 31.) - .5) * (.5 * veg + .35 * riprap + .2) * lodG;
   if (uOuter > .5 && vWp.x > ${INNER.x0 + 4}. && vWp.x < ${INNER.x1 - 4}. && vWp.z > ${INNER.z0 + 4}. && vWp.z < ${INNER.z1 - 4}.) discard;
 }`;
 function terrainMesh(xs, zs, outer) {
@@ -113,8 +114,9 @@ function makeTrees(quality) {
   g.setAttribute('color', new THREE.BufferAttribute(col, 3)); g.computeVertexNormals();
   const mat = patchStd(new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.85, vertexColors: true }), {
     key: 'tree',
-    fragSurface: `{ float n = vnoise3(vWp * .55) * .6 + vnoise3(vWp * 1.7 + 9.) * .4; diffuseColor.rgb *= .5 + 1.0 * n;
-      gBump = (vec3(vnoise3(vWp * 1.1), vnoise3(vWp * 1.1 + 7.), vnoise3(vWp * 1.1 + 19.)) - .5) * 1.1; gRough = .8; }`,
+    fragSurface: `{ float lodT = 1. - smoothstep(90., 380., length(vWp - cameraPosition));
+      float n = vnoise3(vWp * .55) * .6 + mix(.5, vnoise3(vWp * 1.7 + 9.), lodT) * .4; diffuseColor.rgb *= .5 + 1.0 * mix(.5, n, .35 + .65 * lodT);
+      gBump = (vec3(vnoise3(vWp * 1.1), vnoise3(vWp * 1.1 + 7.), vnoise3(vWp * 1.1 + 19.)) - .5) * 1.1 * lodT; gRough = .8; }`,
   });
   const mesh = new THREE.InstancedMesh(g, mat, count);
   const M = new THREE.Matrix4(), q = new THREE.Quaternion(), s = new THREE.Vector3(), v = new THREE.Vector3(), c = new THREE.Color(), up = new THREE.Vector3(0, 1, 0);
@@ -177,18 +179,18 @@ function makeWires() {
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('aSide', new THREE.Float32BufferAttribute(side, 1)); g.setAttribute('aWire', new THREE.Float32BufferAttribute(wid, 1));
   g.setIndex(idx);
-  const uniforms = { ...shared, uRes: { value: new THREE.Vector2(1920, 1080) }, uShow: { value: 0 }, uVib: { value: 0 }, uVibTop: { value: 60 }, uWidth: { value: 1.0 }, uRise: { value: 1 }, uWet: { value: 0 } };
+  const uniforms = { ...shared, uRes: { value: new THREE.Vector2(1920, 1080) }, uShow: { value: 0 }, uVib: { value: 0 }, uVibTop: { value: 60 }, uWidth: { value: 4.2 }, uRise: { value: 1 }, uWet: { value: 0 } };
   const mat = new THREE.ShaderMaterial({
     uniforms, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
     vertexShader: /* glsl */`
       attribute float aSide, aWire; uniform vec2 uRes; uniform float uTime, uVib, uVibTop, uWidth, uRise;
-      varying vec3 vWp; varying float vWire; varying float vVib; varying float vFade;
+      varying vec3 vWp; varying float vWire; varying float vVib; varying float vFade; varying float vEdge;
       vec3 wirePos(vec3 p){
         float span = ${WIRES.span.toFixed(1)}, u = p.z / span;
         float env = (1. - u * u) * uVib * step(aWire, uVibTop);
         float ph = aWire * 1.7;
-        p.x += env * (sin(uTime * 61. + ph) * .035 + sin(uTime * 23. + u * 9. + ph) * .02);
-        p.y += env * sin(uTime * 47. + ph * 1.3 + u * 6.) * .012;
+        p.x += env * (sin(uTime * 2.3 + ph) * .03 + sin(uTime * 3.7 + u * 9. + ph) * .015);     // a slow visible sway; the real ringing is far too fast to see
+        p.y += env * sin(uTime * 2.9 + ph * 1.3 + u * 6.) * .008;
         // before the operation the filaments lie on the canal bed; uRise lifts them into place
         float sag = (1. - uRise); p.y = mix(p.y, -12.4 + aWire * .004, sag * (1. - pow(abs(u), 6.)));
         return p;
@@ -198,27 +200,30 @@ function makeWires() {
         vec4 c = projectionMatrix * viewMatrix * vec4(p, 1.), c2 = projectionMatrix * viewMatrix * vec4(p2, 1.);
         vec2 d = normalize((c2.xy / c2.w - c.xy / c.w) * uRes + 1e-6);
         c.xy += vec2(-d.y, d.x) * aSide * uWidth / uRes * c.w;
-        gl_Position = c; vWp = p; vWire = aWire; vVib = uVib * step(aWire, uVibTop);
+        gl_Position = c; vWp = p; vWire = aWire; vVib = uVib * step(aWire, uVibTop); vEdge = aSide;
         // half a metre apart: once neighbours are closer than a few pixels the strings must fade, not fuse into a sheet
         float px = ${WIRES.h.toFixed(2)} * uRes.y * projectionMatrix[1][1] / (2. * max(c.w, 1e-3));
         vFade = pow(clamp(px / 3.5, 0., 1.), 1.6) * exp(-max(c.w - 110., 0.) / 80.);
       }`,
     fragmentShader: /* glsl */`
-      uniform vec3 uSunDir, uFogSun; uniform float uShow, uTime, uWet; varying vec3 vWp; varying float vWire; varying float vVib; varying float vFade;
+      uniform vec3 uSunDir, uFogSun; uniform float uShow, uTime, uWet; varying vec3 vWp; varying float vWire; varying float vVib; varying float vFade; varying float vEdge;
       ${GLSL_NOISE}
       void main(){
         if (vWp.y < 0.02) discard;
         vec3 V = normalize(cameraPosition - vWp), H = normalize(V + uSunDir);
         float g = exp(-pow(H.z * 26., 2.));                               // a fibre only glints where the half-vector is square to it
-        float tw = pow(vnoise(vec2(vWp.z * 1.3 + uTime * .7, vWire * 3.)), 6.) * 1.5;
+        float lz = fwidth(vWp.z);                                         // metres of filament under one pixel: detail along it must fade before it can crawl
+        float tw = mix(.03, pow(vnoise(vec2(vWp.z * 1.3 + uTime * .35, vWire * 3.)), 6.) * 1.5, 1. - smoothstep(.12, .4, lz * 1.3));
         float dist = length(cameraPosition - vWp);
         float base = .003 + .016 * exp(-dist / 45.);
         // fresh from the canal bed the filaments carry beads of water that catch the low sun
-        float beads = pow(vnoise(vec2(vWp.z * 5. - uTime * .9, vWire * 7.)), 5.) * uWet;
+        float beads = mix(.06, pow(vnoise(vec2(vWp.z * 5. - uTime * .3, vWire * 7.)), 5.), 1. - smoothstep(.1, .35, lz * 5.)) * uWet;
         float gw = exp(-pow(H.z * 7., 2.));
-        vec3 col = uFogSun * (g * (2.2 + tw * 2.) + base * (1. + 2.5 * uWet) + beads * (.25 + 2.2 * gw)) + vec3(1., .82, .55) * vVib * (.06 + .5 * g);
+        vec3 col = vec3(1., .8, .52) * (g * (1.0 + tw) + base * 2. * (1. + 2.5 * uWet) + beads * (.2 + 1.2 * gw)) + vec3(1., .82, .55) * vVib * (.05 + .3 * g);
+        col = min(col, vec3(1.25));                                        // never brighter than the anti-aliasing can resolve
         col += vec3(.25, .8, 1.) * uShow * (.55 + .25 * sin(vWp.z * .6 - uTime * 4. + vWire));
-        gl_FragColor = vec4(col * vFade, 1.);
+        // a Gaussian 0.7 px wide (the ribbon is its 3-sigma support): narrow enough to read as a hair, wide enough that pixel centres sample it without beating
+        gl_FragColor = vec4(col * vFade * exp(-vEdge * vEdge * 4.5) * .62, 1.);
       }`,
   });
   const m = new THREE.Mesh(g, mat); m.frustumCulled = false; m.renderOrder = 5;
@@ -297,7 +302,7 @@ void main(){
   body *= sunL * (.8 + .5 * max(dot(N, uSunDir), 0.));
   vec3 col = mix(body, refl, F);
   vec3 H = normalize(uSunDir + V);
-  col += uSunColor * pow(max(dot(N, H), 0.), 1400.) * 55. * F;
+  col += uSunColor * pow(max(dot(N, H), 0.), 520.) * 16. * F;
   float shore = smoothstep(.55, .0, depth) * (.35 + .65 * vnoise(p * 1.1 + uTime * .3)) * .5;
   foam = clamp(foam + shore, 0., 1.);
   col = mix(col, vec3(.72, .70, .66) * (sunL * .5 + .25) * (uSunColor * .22 + .6), foam * .85);

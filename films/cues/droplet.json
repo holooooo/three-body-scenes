@@ -1,193 +1,363 @@
 {
   "id": "droplet",
   "title": "末日战役 / Doomsday Battle",
-  "duration": 62.0,
-  "direction": "Deep space. Two thousand kilometre-long warships hang in a perfect rectangular formation, proud and certain of victory. A single mirror-smooth teardrop probe, 3.4 metres long, ignites a ring of light at its tail and punches through the first row ship after ship; each ship becomes a small sun. Then it turns at impossible angles and takes the fleet apart. Musical arc: hubris -> cold stillness -> mechanical, accelerating annihilation -> desolation. Palette: slow wide choir/brass-like pad in C minor for the fleet (noble, almost a hymn); a pure sine/glass-harmonica tone for the droplet (inhuman, perfectly in tune, no vibrato); pounding low drums and a relentless ostinato that accelerates through the battle; ends on the droplet's cold tone alone.",
+  "duration": 125.0,
+  "direction": "Deep space. Two thousand kilometre-long warships hang in a perfect rectangular formation, proud and certain of victory. A single mirror-smooth teardrop probe, 3.4 metres long, ignites a ring of light at its tail and punches through the first row ship after ship; each ship becomes a small sun. Then it turns at impossible angles and takes the fleet apart. Musical arc: hubris -> cold stillness -> mechanical, accelerating annihilation -> desolation. Palette: slow wide choir/brass-like pad in C minor for the fleet (noble, almost a hymn); a pure sine/glass-harmonica tone for the droplet (inhuman, perfectly in tune, no vibrato); pounding low drums and a relentless ostinato that accelerates through the battle; ends on the droplet's cold tone alone. NEW IN THIS LONGER CUT: the film opens on what looks like the fleet itself, a three-dimensional lattice of two thousand ships, and only after a long pull-back do we understand we have been looking at its reflection in the droplet's mirror skin. The hymn should therefore play as completely sincere at first, then hollow out and curdle as the mirror's edge slides into frame (12-22s). The battle is longer and seen from several viewpoints: a wide shot, a camera riding on the droplet itself (slow motion that ramps to full speed), a close-up on one hull as it is pierced, a fleeing ship's rear view, and a god's-eye view of the whole formation burning.",
   "sections": [
     {
       "t": 0.0,
-      "name": "title",
-      "level": 1,
-      "note": "black screen title. Low sustained C, a distant slow swell."
-    },
-    {
-      "t": 4.0,
       "name": "fleet",
-      "level": 2,
-      "note": "a slow pass along one warship, then at 8.6s a cut to the whole lattice of 2000 ships. Noble, wide hymn-like pad, slow chord changes every 3 seconds, growing confident."
+      "level": 3,
+      "note": "COLD OPEN, no title card and no fade-in: from the first frame the screen is filled by what appears to be the fleet, a majestic 3D lattice of two thousand warships. The hymn must already be sounding at full, confident strength from the first sample after the 30 ms lead-in (start on a big swell/impact, not a fade): noble, wide, slow chord changes every 3 seconds. Fully sincere."
     },
     {
-      "t": 13.0,
-      "name": "droplet",
-      "level": 0,
-      "note": "macro shot of the mirror teardrop. The hymn stops dead. A single pure cold tone, very quiet, plus faint high shimmer."
+      "t": 12.0,
+      "name": "reveal",
+      "level": 1,
+      "note": "the camera pulls back and back; the image bends, shrinks, and the curved edge of the mirror droplet slides into frame: it was a reflection all along. The hymn does not stop abruptly here - it thins voice by voice and detunes slightly flat, like a record slowing, while the droplet's pure cold sine tone fades in underneath and is alone by 20s."
     },
     {
-      "t": 20.0,
+      "t": 22.0,
       "name": "ignition",
       "level": 2,
-      "note": "a halo of light ignites behind the droplet. Riser into the first strike."
+      "note": "22-25.5s: front quarter of the resting droplet, the blue halo lights behind its tail. 25.5-28s: from behind its tail; at 25.7s it is simply gone, and the lens crash-zooms after it to the corner ship, which is pierced at 27.55s. Tension, then a whip."
     },
     {
-      "t": 23.05,
+      "t": 28.0,
       "name": "firstrow",
       "level": 4,
-      "note": "the droplet pierces the first row; seen from further down the row, the explosions march toward camera until the nearest ship goes at 30.0s. Drums land on the listed hits, which accelerate. Relentless low ostinato in 16ths."
+      "note": "wide shot: the droplet runs down the first line of ships; each glows red, then becomes a small sun. Drums land on the listed hits, which accelerate. Relentless low ostinato in 16ths."
     },
     {
-      "t": 31.0,
+      "t": 36.0,
+      "name": "onboard",
+      "level": 3,
+      "note": "a camera clamped to the droplet's back like an action camera on a bonnet. 36-44s: twenty-times slow motion, five hulls pierced one by one (37.05, 38.77, 40.47, 42.16, 43.82s) under a ceiling of fresh fireballs: heavy, slow sub pulses. 44-50s: the clock winds back up to full speed, the camera barrel-rolls through the acute turn: accelerating booms."
+    },
+    {
+      "t": 50.0,
+      "name": "hull",
+      "level": 1,
+      "note": "one ship, one second, stretched to ten: the camera cranes over the hull's back while heat spreads from the puncture (pierced at 51.6s), dull red to orange to yellow. Near silence, a held high tone that tightens; the fusion blast at 59.55s is the single biggest hit, and the picture cuts on white at 60.0s."
+    },
+    {
+      "t": 60.0,
       "name": "turn",
       "level": 3,
-      "note": "wide shot: a string of suns; the droplet makes a sharp turn and takes the next rows. Driving, the hymn chords return distorted and minor."
+      "note": "wide: a line of suns inside the 3D lattice; the droplet turns at an impossible acute angle and takes the next lines. Driving, the hymn chords return distorted and minor."
     },
     {
-      "t": 39.0,
+      "t": 70.0,
       "name": "rout",
       "level": 4,
-      "note": "the fleet scatters, engines flaring; chase through the fireballs. Peak intensity, fastest ostinato, layered impacts."
+      "note": "the hunt. 70-79s: flying after the droplet through the scattering fleet. 79-88s: circling the detonation front at close range in slow motion, fireballs filling the frame. Full percussion drive, the peak of the piece."
     },
     {
-      "t": 48.0,
+      "t": 88.0,
+      "name": "fleeing",
+      "level": 3,
+      "note": "riding one fleeing ship, looking back past its hull at the red wreck. The drive thins to pulse and dread. At 96.1s the droplet takes this ship too (bright ping), its hull glows through one slow second, and at 97.9s it blows: impact, then an abrupt cut to quiet at 98.0s."
+    },
+    {
+      "t": 98.0,
+      "name": "godview",
+      "level": 2,
+      "note": "one continuous camera move to the end. 98-103s: the whole battlefield from far away, a dull red cloud with a zigzag of lightning still finishing off stragglers: distant, hollow, low. 103-110s: the camera accelerates and flies straight through the wreck (rushing air, rising motion, the last ship dies at 106.1s) toward the place where the droplet comes to rest at 109.7s."
+    },
+    {
+      "t": 110.0,
       "name": "aftermath",
       "level": 1,
-      "note": "a dark red cloud of cooling metal; the droplet hangs unmarked in front of it. Everything drops away to the cold pure tone and a very low rumble."
+      "note": "the droplet, 3.4 metres long, hanging at the edge of the wreck without a scratch (the camera settles on it at about 111s). From 113.4s the camera creeps into its mirror until the whole burning wreck is seen reflected in it: the opening image again, with fire where the fleet was. One cold, pure, held tone; awe and emptiness."
     },
     {
-      "t": 54.0,
+      "t": 118.0,
       "name": "endcard",
       "level": 1,
-      "note": "end card. Cold tone fades to silence by 61.5s."
+      "note": "end card. Cold tone fades to silence by 124.5s."
     }
   ],
   "hits": [
     {
-      "t": 4.0,
-      "kind": "swell",
-      "gain": 0.8
+      "t": 0.04,
+      "kind": "impact",
+      "gain": 0.9
     },
     {
-      "t": 8.6,
+      "t": 6,
       "kind": "swell",
       "gain": 0.7
     },
     {
-      "t": 13.0,
-      "kind": "glass",
-      "gain": 1.0
+      "t": 12,
+      "kind": "swell",
+      "gain": 0.5
     },
     {
-      "t": 20.0,
+      "t": 17.4,
+      "kind": "glass",
+      "gain": 0.7
+    },
+    {
+      "t": 22,
       "kind": "sub",
       "gain": 0.7
     },
     {
-      "t": 23.05,
+      "t": 25.7,
+      "kind": "impact",
+      "gain": 0.85
+    },
+    {
+      "t": 27.55,
       "kind": "impact",
       "gain": 1.0
     },
     {
-      "t": 24.2,
-      "kind": "boom",
-      "gain": 0.8
-    },
-    {
-      "t": 25.3,
-      "kind": "boom",
-      "gain": 0.8
-    },
-    {
-      "t": 26.3,
-      "kind": "boom",
-      "gain": 0.85
-    },
-    {
-      "t": 27.2,
-      "kind": "boom",
-      "gain": 0.85
-    },
-    {
       "t": 28.0,
+      "kind": "sub",
+      "gain": 0.9
+    },
+    {
+      "t": 29.2,
+      "kind": "boom",
+      "gain": 0.8
+    },
+    {
+      "t": 30.2,
+      "kind": "boom",
+      "gain": 0.8
+    },
+    {
+      "t": 31.1,
+      "kind": "boom",
+      "gain": 0.85
+    },
+    {
+      "t": 31.9,
+      "kind": "boom",
+      "gain": 0.85
+    },
+    {
+      "t": 32.7,
       "kind": "boom",
       "gain": 0.9
     },
     {
-      "t": 28.7,
+      "t": 33.4,
       "kind": "boom",
       "gain": 0.9
     },
     {
-      "t": 29.3,
+      "t": 34.0,
       "kind": "boom",
       "gain": 0.95
     },
     {
-      "t": 30.0,
-      "kind": "impact",
+      "t": 34.6,
+      "kind": "boom",
+      "gain": 0.95
+    },
+    {
+      "t": 35.2,
+      "kind": "boom",
       "gain": 1.0
     },
     {
-      "t": 31.0,
-      "kind": "impact",
+      "t": 36.0,
+      "kind": "sub",
       "gain": 0.8
     },
     {
-      "t": 32.45,
-      "kind": "boom",
-      "gain": 0.9
-    },
-    {
-      "t": 36.7,
-      "kind": "boom",
-      "gain": 0.9
-    },
-    {
-      "t": 39.0,
-      "kind": "impact",
-      "gain": 1.0
-    },
-    {
-      "t": 42.0,
-      "kind": "boom",
-      "gain": 0.9
-    },
-    {
-      "t": 45.0,
-      "kind": "impact",
-      "gain": 0.9
-    },
-    {
-      "t": 48.0,
+      "t": 37.05,
       "kind": "sub",
       "gain": 1.0
     },
     {
-      "t": 48.4,
+      "t": 38.77,
+      "kind": "sub",
+      "gain": 0.9
+    },
+    {
+      "t": 40.47,
+      "kind": "sub",
+      "gain": 0.9
+    },
+    {
+      "t": 42.16,
+      "kind": "sub",
+      "gain": 1.0
+    },
+    {
+      "t": 43.82,
+      "kind": "sub",
+      "gain": 1.0
+    },
+    {
+      "t": 44.6,
+      "kind": "boom",
+      "gain": 0.8
+    },
+    {
+      "t": 45.7,
+      "kind": "boom",
+      "gain": 0.85
+    },
+    {
+      "t": 46.6,
+      "kind": "boom",
+      "gain": 0.9
+    },
+    {
+      "t": 47.4,
+      "kind": "boom",
+      "gain": 0.9
+    },
+    {
+      "t": 48.1,
+      "kind": "boom",
+      "gain": 0.95
+    },
+    {
+      "t": 48.7,
+      "kind": "boom",
+      "gain": 0.95
+    },
+    {
+      "t": 49.3,
+      "kind": "boom",
+      "gain": 1.0
+    },
+    {
+      "t": 51.6,
+      "kind": "glass",
+      "gain": 0.9
+    },
+    {
+      "t": 59.55,
+      "kind": "impact",
+      "gain": 1.0
+    },
+    {
+      "t": 60.04,
+      "kind": "impact",
+      "gain": 0.8
+    },
+    {
+      "t": 63,
+      "kind": "boom",
+      "gain": 0.9
+    },
+    {
+      "t": 66.5,
+      "kind": "boom",
+      "gain": 0.9
+    },
+    {
+      "t": 70,
+      "kind": "impact",
+      "gain": 1.0
+    },
+    {
+      "t": 74,
+      "kind": "boom",
+      "gain": 0.9
+    },
+    {
+      "t": 79,
+      "kind": "impact",
+      "gain": 0.9
+    },
+    {
+      "t": 82,
+      "kind": "boom",
+      "gain": 0.9
+    },
+    {
+      "t": 85,
+      "kind": "boom",
+      "gain": 0.9
+    },
+    {
+      "t": 88,
+      "kind": "sub",
+      "gain": 0.8
+    },
+    {
+      "t": 96.1,
+      "kind": "glass",
+      "gain": 0.9
+    },
+    {
+      "t": 97.9,
+      "kind": "impact",
+      "gain": 1.0
+    },
+    {
+      "t": 104.0,
+      "kind": "swell",
+      "gain": 0.7
+    },
+    {
+      "t": 106.1,
+      "kind": "boom",
+      "gain": 0.7
+    },
+    {
+      "t": 109.7,
+      "kind": "sub",
+      "gain": 1.0
+    },
+    {
+      "t": 111.2,
       "kind": "glass",
       "gain": 0.8
+    },
+    {
+      "t": 114.5,
+      "kind": "swell",
+      "gain": 0.6
+    },
+    {
+      "t": 118.2,
+      "kind": "glass",
+      "gain": 0.5
     }
   ],
   "risers": [
     {
-      "from": 20.0,
-      "to": 23.05
+      "from": 24.0,
+      "to": 25.7
     },
     {
-      "from": 37.0,
-      "to": 39.0
+      "from": 56.5,
+      "to": 59.55
     },
     {
-      "from": 46.0,
-      "to": 48.0
+      "from": 68.0,
+      "to": 70.0
+    },
+    {
+      "from": 95.0,
+      "to": 97.9
+    },
+    {
+      "from": 102.5,
+      "to": 106.1
     }
   ],
   "silences": [
     {
-      "from": 13.0,
-      "to": 13.6
+      "from": 50.0,
+      "to": 50.5
     },
     {
-      "from": 48.0,
-      "to": 48.4
+      "from": 98.0,
+      "to": 98.6
+    },
+    {
+      "from": 110.0,
+      "to": 110.6
     }
   ]
 }

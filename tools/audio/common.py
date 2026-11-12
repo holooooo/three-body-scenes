@@ -10,9 +10,21 @@ def exempt(cue, t):
     return any(s['from'] - 1e-6 <= t <= s['from'] + 0.06 for s in cue.silences)
 
 
-def put(cue, mix, sp, t, gain=1.0, dry=1.0, hall=0.0, room=0.0):
+def put(cue, mix, sp, t, gain=1.0, dry=1.0, hall=0.0, room=0.0, ring_tau=None):
+    """ring_tau: if a silence starts within 0.45 s after this hit, the hit is not ducked but its tail is
+    given an extra exp(-t/ring_tau) decay from the silence start, so it rings out into the silence instead of
+    being chopped (the reverb-tail rule) without filling the silence."""
     sig, pre = sp
-    mix.add(sig * gain, ix(t) - pre, dry=dry, hall=hall, room=room, duck=not exempt(cue, t))
+    duck = not exempt(cue, t)
+    if ring_tau:
+        for s in cue.silences:
+            d = s['from'] - t
+            if 0.06 < d <= 0.45:
+                k = np.arange(sig.shape[1]) / SR - pre
+                sig = sig * np.exp(-np.maximum(0.0, k - d) / ring_tau)
+                duck = False
+                break
+    mix.add(sig * gain, ix(t) - pre, dry=dry, hall=hall, room=room, duck=duck)
 
 
 def put_riser(cue, mix, r, rng, **kw):
@@ -23,18 +35,43 @@ def put_riser(cue, mix, r, rng, **kw):
     mix.add(sig * g, ix(r['to']) - sig.shape[1], dry=1.0, hall=send, room=0.1)
 
 
-def ride(x, cue, targets, clamp=9.0, fade=1.6):
-    """Section-level loudness rider: pulls each section's (ungated) K-weighted loudness toward targets[level]
-    (relative LU), smoothed across boundaries. Keeps the cue-sheet level semantics intact when cues change."""
+def ride(x, cue, targets, overrides=None, clamp=12.0, fade=1.6):
+    """Section-level loudness rider: pulls each section's typical (60th-percentile of 0.5 s blocks,
+    K-weighted) loudness toward targets[level] or overrides[name] (relative LU), smoothed across boundaries.
+    Using a percentile keeps a single big hit at the end of a near-silent section from being ridden down."""
+    overrides = overrides or {}
     y = k_weight(x)
     arr = np.zeros(cue.N)
+    blk = ix(0.5)
     for s in cue.secs:
         a, b = ix(s.t0), ix(s.t1)
-        ms = np.mean(y[:, a:b] ** 2) + 1e-12
-        l = -0.691 + 10 * np.log10(2 * ms)
-        arr[a:b] = np.clip(targets[s.level] - l, -clamp, clamp)
+        nb = max(1, (b - a) // blk)
+        seg = y[:, a:a + nb * blk]
+        if seg.shape[1] < blk:
+            seg = y[:, a:b]
+            nb = 1
+            ms = np.mean(seg ** 2, axis=1).sum(keepdims=True)
+        else:
+            ms = (seg.reshape(2, nb, blk) ** 2).mean(2).sum(0)
+        l = -0.691 + 10 * np.log10(ms + 1e-12)
+        l = np.percentile(l, 60)
+        tgt = overrides.get(s.name, targets[s.level])
+        arr[a:b] = np.clip(tgt - l, -clamp, clamp)
     g = smooth_curve(arr, fade)
     return x * db(g)
+
+
+def fill_phrases(sec, phrases, place, start=0.4, gap=1.0, min_fit=0.7, margin=0.4):
+    """Place phrases one after another inside a section; a phrase that mostly does not fit is dropped.
+    phrases: list of note lists [(dt, ...), ...]; place(t, notes) plays them."""
+    cursor = sec.t0 + start
+    for ph in phrases:
+        fit = [n for n in ph if cursor + n[0] < sec.t1 - margin]
+        if len(fit) < min_fit * len(ph):
+            break
+        place(cursor, fit)
+        cursor += max(n[0] for n in ph) + gap
+    return cursor
 
 
 def master(x, cue, target=-14.0):
@@ -45,8 +82,9 @@ def master(x, cue, target=-14.0):
     x = compress(x, thr_db=-19, ratio=1.45, attack=0.05, release=0.6, knee=12)
     # edge fades: silent start / end, no click
     f = np.ones(N)
-    a = ix(0.04)
-    f[:a] = cos_ramp(a)
+    a0, a = ix(0.03), ix(0.033)          # cold open: 30 ms digital silence, then a 3 ms de-click ramp
+    f[:a0] = 0
+    f[a0:a] = cos_ramp(a - a0)
     e0 = ix(cue.dur - 1.6)
     e1 = ix(cue.dur - 0.08)
     f[e0:e1] = 0.5 + 0.5 * np.cos(np.pi * np.linspace(0, 1, e1 - e0))
@@ -73,7 +111,7 @@ VOWEL_AH = ((730, 6.0, 1.0), (1090, 8.0, 0.6), (2440, 10.0, 0.3))
 
 
 def pad(cue, mix, R, chords, lo, hi, k, gain, amp, cut, att=1.2, rel=1.2, nv=5, det=12, drive=0.0,
-        vowel=False, hall=0.5, room=0.1, hard_end=None, spread=0.9, q=0.7, att_first=None):
+        vowel=False, hall=0.5, room=0.1, hard_end=None, spread=0.9, q=0.7, att_first=None, brass=None):
     """Voice-led pad: chords [(t0,t1,pcs)], amp/cut are full-length curves (gain, Hz)."""
     notes = voice_notes(chords, lo, hi, k)
     first = min(n[0] for n in notes)
@@ -84,6 +122,8 @@ def pad(cue, mix, R, chords, lo, hi, k, gain, amp, cut, att=1.2, rel=1.2, nv=5, 
         ln = ix(t_off - t_on + r)
         x = supersaw(float(mtof(m)), ln, nv, det, R, spread=spread, drift=3.0)
         cc = sl(cut, n0, ln)
+        if brass:
+            cc = brass[0] + (brass[1] - brass[0]) * (1 - np.exp(-np.arange(ln) / SR / brass[2]))
         x = tv_filter(tv_filter(x, cc, 'lp', q, chunk=512), cc, 'lp', 0.6, chunk=512)
         if vowel:
             vs = sum(signal.sosfilt(biquad('bp', f, qq)[None], x, axis=-1) * g for f, qq, g in VOWEL_AH)

@@ -75,9 +75,10 @@ export class Engine {
     c.position.set(p.pos[0], p.pos[1], p.pos[2]); c.up.set(0, 1, 0); c.lookAt(p.look[0], p.look[1], p.look[2]);
     if (p.roll) c.rotateZ(p.roll);
     c.fov = p.fov || 40;
+    this.realm = p.realm || null;          // a scene may hold more than one place; the pose says which one the camera is in
   }
 
-  env(extra) { return { camera: this.camera, w: this.w, h: this.h, film: this.film, quality: this.quality, ...extra }; }
+  env(extra) { return { camera: this.camera, w: this.w, h: this.h, film: this.film, quality: this.quality, realm: this.realm || null, ...extra }; }
 
   drawScene(t, target) {
     const s = this.scene, cam = this.camera;
@@ -97,6 +98,7 @@ export class Engine {
     if (m === this.mode) return;
     if (m === 'orbit') {
       const p = this.scene.director(this.t, this.env());
+      if (p.realm && !this.follow) this.follow = this.scene.focus?.find(x => x.realm === p.realm)?.id || null;
       const f = this.follow ? this.focusPoint(this.follow) : null;
       this.controls.target.set(...(f ? f.p : p.look));
       this._lastFocus = f ? f.p.slice() : null;
@@ -175,6 +177,7 @@ export class Engine {
         }
         if (f) this._lastFocus = f.p.slice();
       }
+      this.realm = s.focus?.find(x => x.id === this.follow)?.realm || null;
       const lim = s.orbitLimits?.(this.follow, this.t);
       if (lim) { c.minDistance = lim.min; c.maxDistance = lim.max; if (lim.minY != null && cam.position.y < lim.minY) cam.position.y = lim.minY; }
       c.update();

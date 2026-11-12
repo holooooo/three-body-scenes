@@ -91,12 +91,13 @@ export function patchStd(mat, o = {}) {
           vWp = (modelMatrix * vec4(transformed, 1.)).xyz;
         #endif`);
     sh.fragmentShader = sh.fragmentShader
-      .replace('#include <common>', `#include <common>\nvarying vec3 vWp;\nuniform vec3 uSunDir, uFogColor, uFogSun; uniform float uFogDensity, uTime;\n${GLSL_NOISE}\n${SKY_GLSL}\nfloat gRough = -1., gMetal = -1.; vec3 gEmis = vec3(0.); vec3 gBump = vec3(0.);\n${o.fragPars || ''}`)
+      .replace('#include <common>', `#include <common>\nvarying vec3 vWp;\nuniform vec3 uSunDir, uFogColor, uFogSun; uniform float uFogDensity, uTime;\n${GLSL_NOISE}\n${SKY_GLSL}\nfloat gRough = -1., gMetal = -1., gOcc = 1.; vec3 gEmis = vec3(0.); vec3 gBump = vec3(0.);\n${o.fragPars || ''}`)
       .replace('#include <color_fragment>', `#include <color_fragment>\n${o.fragSurface || ''}`)
       .replace('#include <roughnessmap_fragment>', '#include <roughnessmap_fragment>\nif (gRough >= 0.) roughnessFactor = gRough;')
       .replace('#include <metalnessmap_fragment>', '#include <metalnessmap_fragment>\nif (gMetal >= 0.) metalnessFactor = gMetal;')
       .replace('#include <normal_fragment_maps>', '#include <normal_fragment_maps>\nnormal = normalize(normal + (viewMatrix * vec4(gBump, 0.)).xyz);')
       .replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\ntotalEmissiveRadiance += gEmis;')
+      .replace('#include <aomap_fragment>', '#include <aomap_fragment>\nreflectedLight.indirectDiffuse *= gOcc; reflectedLight.indirectSpecular *= gOcc;')
       .replace('#include <fog_fragment>', FOG_FRAG);
     o.onCompile?.(sh);
   };
