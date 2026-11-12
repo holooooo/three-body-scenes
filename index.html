@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>三体 · 名场面复原 — 古筝行动 / 末日战役 / 二向箔</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="三个可以亲手拖动时间轴、从任意角度观看的《三体》名场面：古筝行动、水滴末日战役、太阳系二维化。Three interactive, scrubbable scenes from the Three-Body trilogy.">
+<meta name="theme-color" content="#000000">
+<meta property="og:title" content="三体 · 名场面复原">
+<meta property="og:description" content="古筝行动 · 末日战役 · 二向箔 —— 可交互的实时 3D 复原">
+<meta property="og:image" content="assets/poster-guzheng.jpg">
+<link rel="icon" href="brand/favicon.svg">
+<link rel="stylesheet" href="src/ui.css">
+<link rel="stylesheet" href="src/home.css">
+</head>
+<body class="home">
+<header class="top">
+  <div class="mark"><i></i><i></i><i></i><span data-zh="三体 · 名场面复原" data-en="Three-Body · Restored Scenes"></span></div>
+  <nav>
+    <a class="ghost" href="https://github.com/holooooo/three-body-scenes" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <button class="ghost" id="lang">EN</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="eyebrow" data-zh="可交互 · 实时渲染 · 无血腥画面" data-en="Interactive · real-time · no gore"></div>
+  <h1><span data-zh="三个瞬间" data-en="Three moments"></span><em data-zh="亲手拖动时间" data-en="scrub them yourself"></em></h1>
+  <p data-zh="把《三体》里最震撼的三个场面搭成可以走进去的实时场景：暂停、倒退、放慢到十分之一，绕到任何角度，去看书里一笔带过的细节。"
+     data-en="Three of the most staggering scenes in the Three-Body trilogy, rebuilt as real-time spaces you can step into: pause, rewind, slow to a tenth, and walk around the details the page could only hint at."></p>
+</section>
+
+<main class="scenes">
+  <a class="card" href="scene.html?s=guzheng" style="--accent:#f0a35c">
+    <div class="img" style="background-image:url(assets/poster-guzheng.jpg)"></div>
+    <div class="meta"><b>01</b><span data-zh="《三体》· 巴拿马运河" data-en="The Three-Body Problem · Panama Canal"></span></div>
+    <h2 data-zh="古筝行动" data-en="Operation Guzheng"></h2>
+    <p data-zh="五十根纳米飞刃横在盖拉德水道，六万吨的“审判日”号无声地穿过，然后像一叠扑克牌一样滑开。" data-en="Fifty nano-filaments strung across the Gaillard Cut. Sixty thousand tons of ship pass through in silence — and slide apart like a deck of cards."></p>
+    <div class="go"><span data-zh="进入场景" data-en="Enter"></span><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+  </a>
+  <a class="card" href="scene.html?s=droplet" style="--accent:#9ed4ff">
+    <div class="img" style="background-image:url(assets/poster-droplet.jpg)"></div>
+    <div class="meta"><b>02</b><span data-zh="《黑暗森林》· 木星轨道外" data-en="The Dark Forest · beyond Jupiter"></span></div>
+    <h2 data-zh="末日战役" data-en="Doomsday Battle"></h2>
+    <p data-zh="一个三米多长的镜面水滴，面对排成矩形方阵的两千艘恒星级战舰。可以跟着它，一艘一艘地看。" data-en="One mirror-smooth droplet, barely three metres long, against two thousand stellar-class warships in formation. Ride along and watch them go, one by one."></p>
+    <div class="go"><span data-zh="进入场景" data-en="Enter"></span><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+  </a>
+  <a class="card" href="scene.html?s=foil" style="--accent:#f3e3b4">
+    <div class="img" style="background-image:url(assets/poster-foil.jpg)"></div>
+    <div class="meta"><b>03</b><span data-zh="《死神永生》· 太阳系" data-en="Death's End · the Solar System"></span></div>
+    <h2 data-zh="二向箔" data-en="Dimensional Strike"></h2>
+    <p data-zh="一张小纸条让三维空间向二维跌落。海王星、土星、地球、太阳，依次摊成一幅没有厚度的画。" data-en="A slip of paper makes three-dimensional space fall into two. Neptune, Saturn, Earth and the Sun unroll, one after another, into a painting with no thickness."></p>
+    <div class="go"><span data-zh="进入场景" data-en="Enter"></span><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+  </a>
+</main>
+
+<section class="how">
+  <div><b data-zh="时间轴" data-en="Timeline"></b><span data-zh="拖动回到任意时刻；0.1× 到 4× 变速；刻度是关键瞬间。" data-en="Drag to any instant; 0.1× to 4× speed; ticks mark the key moments."></span></div>
+  <div><b data-zh="镜头" data-en="Camera"></b><span data-zh="默认导演镜头；拖一下画面就接管为自由视角，可跟随任意目标。" data-en="A directed camera by default; drag once to take over and orbit any target."></span></div>
+  <div><b data-zh="键盘" data-en="Keys"></b><span data-zh="空格暂停 · ←/→ 步进 · [ ] 变速 · C 镜头 · H 隐藏界面 · F 全屏" data-en="Space pause · ←/→ step · [ ] speed · C camera · H hide UI · F fullscreen"></span></div>
+</section>
+
+<footer class="foot">
+  <div class="by"><img src="brand/avatar.png" alt="" width="44" height="44"><div><b>粑粑柑（梭哈ai版）</b><span data-zh="制作 · 全部画面由代码实时生成，没有使用任何影视素材" data-en="Made by · every frame is generated live in code; no film or series footage is used"></span></div></div>
+  <p class="note" data-zh="同人致敬作品，与原著作者、出版方及任何影视改编无关。场景依据刘慈欣《三体》三部曲中的描写自行设计，尺度与时间为了可看性做了压缩。"
+     data-en="A fan tribute, not affiliated with the author, publishers or any screen adaptation. Scenes are original designs based on descriptions in Liu Cixin's Three-Body trilogy; scale and timing are compressed for legibility."></p>
+</footer>
+<script>
+  let lang = new URLSearchParams(location.search).get('lang') || localStorage.getItem('tbs-lang') || ((navigator.language || 'zh').toLowerCase().startsWith('zh') ? 'zh' : 'en');
+  const apply = () => {
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    document.querySelectorAll('[data-zh]').forEach(e => { e.textContent = lang === 'zh' ? e.dataset.zh : e.dataset.en; });
+    document.getElementById('lang').textContent = lang === 'zh' ? 'EN' : '中';
+    document.body.classList.toggle('en', lang !== 'zh');
+  };
+  document.getElementById('lang').onclick = () => { lang = lang === 'zh' ? 'en' : 'zh'; localStorage.setItem('tbs-lang', lang); apply(); };
+  apply();
+  window.READY = true; window.renderFrame = async () => {};
+</script>
+</body>
+</html>

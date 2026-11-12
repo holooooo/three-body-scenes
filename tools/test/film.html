@@ -1,0 +1,37 @@
+<!doctype html><meta charset="utf-8"><title>fixture</title>
+<style>html,body{margin:0;background:#000;overflow:hidden}canvas{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#ov{position:absolute;left:60px;top:40px;font:700 150px/1.1 monospace;color:#fff;text-shadow:0 0 12px #000,4px 4px 0 #000;white-space:pre}</style>
+<canvas id="c" width="1920" height="1080"></canvas><div id="ov"></div>
+<script>
+window.DURATION = 3;
+const FPS = 60;
+const q = new URLSearchParams(location.search);
+(async () => {
+  try {
+    const gl = document.getElementById('c').getContext('webgl2', { preserveDrawingBuffer: true });
+    if (!gl) throw new Error('no webgl2');
+    const sh = (t, s) => { const o = gl.createShader(t); gl.shaderSource(o, s); gl.compileShader(o); if (!gl.getShaderParameter(o, 35713)) throw new Error(gl.getShaderInfoLog(o)); return o; };
+    const pr = gl.createProgram();
+    gl.attachShader(pr, sh(gl.VERTEX_SHADER, '#version 300 es\nvoid main(){vec2 p=vec2((gl_VertexID<<1)&2,gl_VertexID&2);gl_Position=vec4(p*2.-1.,0,1);}'));
+    gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, `#version 300 es
+precision highp float; uniform float t; out vec4 o;
+void main(){ vec2 uv=gl_FragCoord.xy/vec2(1920,1080); float v=0.;
+ for(int i=0;i<40;i++){ float k=float(i); v+=sin(uv.x*(8.+k)+t*(1.+k*.1))*sin(uv.y*(6.+k*.7)-t*.7+k); }
+ v=v/40.*.5+.5; o=vec4(.15+.6*v,.2+.5*uv.y,.9-.5*v,1.); }`));
+    gl.linkProgram(pr); if (!gl.getProgramParameter(pr, 35714)) throw new Error(gl.getProgramInfoLog(pr));
+    gl.useProgram(pr); const ut = gl.getUniformLocation(pr, 't');
+    const ov = document.getElementById('ov');
+    window.renderFrame = async t => {
+      if (q.get('hang') && Math.abs(t - +q.get('hang')) < 1e-3) await new Promise(() => {});
+      if (q.get('throw') && Math.abs(t - +q.get('throw')) < 1e-3) setTimeout(() => { throw new Error('fixture exploded at t=' + t); }, 0);
+      gl.viewport(0, 0, 1920, 1080); gl.uniform1f(ut, t); gl.drawArrays(gl.TRIANGLES, 0, 3);
+      ov.textContent = `t=${t.toFixed(4)}\nframe=${Math.round(t * FPS)}`;
+      await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+    };
+    if (q.get('nostart')) return; // never READY
+    if (q.get('error')) { window.FILM_ERROR = 'fixture: deliberate init error'; return; }
+    console.log('fixture ready');
+    window.READY = true;
+  } catch (e) { window.FILM_ERROR = String(e); }
+})();
+</script>

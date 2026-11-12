@@ -1,0 +1,131 @@
+{
+  "id": "foil",
+  "title": "二向箔 / Dimensional Strike",
+  "duration": 62.0,
+  "direction": "A tiny, softly glowing slip of 'paper' drifts into the Solar System. Where it rests, three-dimensional space collapses into a flat plane that spreads without stopping; Neptune, Saturn, Earth and finally the Sun fall into it and spread out as vast, luminous, perfectly flat paintings - beautiful and final. This is an elegy, not a battle: no drums. Palette: felt-piano-like notes (soft attack, long decay) carrying a simple slow melody in A minor / A dorian; a wide slow string pad; glassy bell tones; and underneath, from 11s onward, a continuously descending Shepard tone (the feeling of endlessly falling). Each planet's fall is a soft swell that blooms and flattens. The Sun (43s) is the emotional peak: full pad, widest chord, then it thins to one held high note.",
+  "sections": [
+    {
+      "t": 0.0,
+      "name": "title",
+      "level": 1,
+      "note": "black screen title. A single high bell tone, long reverb."
+    },
+    {
+      "t": 4.0,
+      "name": "calm",
+      "level": 1,
+      "note": "the serene Solar System; a small slip of light glides past. Sparse felt-piano melody, innocent."
+    },
+    {
+      "t": 11.0,
+      "name": "foil",
+      "level": 1,
+      "note": "close on the foil; its glow fades and space around it begins to flatten. Melody stops on an unresolved note; the descending Shepard tone starts very quietly."
+    },
+    {
+      "t": 17.0,
+      "name": "neptune",
+      "level": 2,
+      "note": "the plane's edge sweeps outward; Neptune falls and spreads into a flat blue disc. Pad enters; first swell."
+    },
+    {
+      "t": 25.0,
+      "name": "saturn",
+      "level": 3,
+      "note": "Saturn and its rings flatten into immense concentric circles. Bigger swell, melody returns an octave higher."
+    },
+    {
+      "t": 33.0,
+      "name": "earth",
+      "level": 3,
+      "note": "Earth and the Moon. The most intimate passage: the solo melody at its clearest over a warm pad; giant snowflakes bloom around the flat Earth (glassy bell arpeggio, like ice crystallising)."
+    },
+    {
+      "t": 41.0,
+      "name": "sun",
+      "level": 4,
+      "note": "the Sun falls and unrolls into a colossal swirling disc of fire, like The Starry Night. Emotional peak: full pad, widest voicing, deep sustained bass. Still no drums - weight comes from the low end."
+    },
+    {
+      "t": 50.0,
+      "name": "painting",
+      "level": 2,
+      "note": "pull back from the finished flat painting of the whole system while fleeing. Harmony resolves, thinning out."
+    },
+    {
+      "t": 55.0,
+      "name": "endcard",
+      "level": 1,
+      "note": "end card. One held high note and the last of the Shepard descent, fading to silence by 61.5s."
+    }
+  ],
+  "hits": [
+    {
+      "t": 0.5,
+      "kind": "glass",
+      "gain": 0.8
+    },
+    {
+      "t": 11.0,
+      "kind": "glass",
+      "gain": 0.7
+    },
+    {
+      "t": 14.0,
+      "kind": "sub",
+      "gain": 0.6
+    },
+    {
+      "t": 22.3,
+      "kind": "swell",
+      "gain": 0.8
+    },
+    {
+      "t": 29.0,
+      "kind": "swell",
+      "gain": 0.9
+    },
+    {
+      "t": 29.0,
+      "kind": "sub",
+      "gain": 0.7
+    },
+    {
+      "t": 37.0,
+      "kind": "swell",
+      "gain": 0.9
+    },
+    {
+      "t": 38.5,
+      "kind": "glass",
+      "gain": 0.7
+    },
+    {
+      "t": 43.6,
+      "kind": "swell",
+      "gain": 1.0
+    },
+    {
+      "t": 43.6,
+      "kind": "sub",
+      "gain": 1.0
+    },
+    {
+      "t": 46.5,
+      "kind": "sub",
+      "gain": 0.8
+    },
+    {
+      "t": 50.0,
+      "kind": "glass",
+      "gain": 0.6
+    }
+  ],
+  "risers": [
+    {
+      "from": 39.5,
+      "to": 43.6
+    }
+  ],
+  "silences": []
+}

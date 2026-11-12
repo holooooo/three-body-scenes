@@ -1,0 +1,150 @@
+{
+  "id": "guzheng",
+  "title": "古筝行动 / Operation Guzheng",
+  "duration": 62.0,
+  "direction": "Panama Canal at golden hour. A giant tanker sails into fifty invisible nano-filaments strung across the cut like the strings of a guzheng, and is silently sliced into half-metre sheets that slide apart like a pushed deck of cards. Instrument voice: a solo plucked guzheng (Karplus-Strong style, D minor pentatonic D-F-G-A-C, with pitch bends and slow vibrato after the pluck), over a very low bowed-string drone on D. Restraint first: the horror is how quiet it is. The slide (40s) is the only loud passage: tremolo strings, deep impacts, and a thin metallic 'fingernails on glass' screech texture. Ends on the same lonely plucked note it began with.",
+  "sections": [
+    {
+      "t": 0.0,
+      "name": "title",
+      "level": 1,
+      "note": "black screen title. One low D drone fades in, two slow guzheng plucks with long tails."
+    },
+    {
+      "t": 4.0,
+      "name": "canal",
+      "level": 1,
+      "note": "wide aerial from astern: the tanker sails up the calm canal into the low sun. Slow guzheng phrase, lots of air, warm."
+    },
+    {
+      "t": 12.0,
+      "name": "strings",
+      "level": 1,
+      "note": "fifty filaments rise dripping out of the water and stretch across the frame like zither strings, the ship approaching behind them. Single plucks land on the listed pluck hits, like someone testing strings. Slightly colder harmony."
+    },
+    {
+      "t": 19.0,
+      "name": "approach",
+      "level": 2,
+      "note": "the tanker looms in. Drone thickens, slow heartbeat-like low pulse (about 50 bpm), guzheng tremolo figure rising in pitch."
+    },
+    {
+      "t": 27.15,
+      "name": "contact",
+      "level": 0,
+      "note": "the bow meets the wires. Everything cuts to almost nothing: one very high, thin, glassy sustained tone and faint metallic shimmer. Unnervingly calm."
+    },
+    {
+      "t": 33.0,
+      "name": "passing",
+      "level": 1,
+      "note": "the ship glides on, apparently intact. Drone returns very quietly, uneasy semitone clash (D against E-flat), sparse high plucks."
+    },
+    {
+      "t": 40.2,
+      "name": "slide",
+      "level": 4,
+      "note": "the sheets shear apart; at 46s the cut reveals the staircase of mirror-smooth cut faces blazing with the sunset. Full weight: tremolo strings, deep impacts, screeching metallic texture, fast guzheng glissandi (sweeping across all strings)."
+    },
+    {
+      "t": 50.0,
+      "name": "aftermath",
+      "level": 1,
+      "note": "high aerial of the fanned-out wreck beached on the bank at sunset. Everything decays; the opening guzheng phrase returns, slower."
+    },
+    {
+      "t": 55.0,
+      "name": "endcard",
+      "level": 1,
+      "note": "end card. Last plucked D with a long tail, drone fades to silence by 61.5s."
+    }
+  ],
+  "hits": [
+    {
+      "t": 0.6,
+      "kind": "pluck",
+      "gain": 0.9
+    },
+    {
+      "t": 2.4,
+      "kind": "pluck",
+      "gain": 0.7
+    },
+    {
+      "t": 12.0,
+      "kind": "glass",
+      "gain": 0.5
+    },
+    {
+      "t": 13.6,
+      "kind": "pluck",
+      "gain": 0.8
+    },
+    {
+      "t": 15.2,
+      "kind": "pluck",
+      "gain": 0.8
+    },
+    {
+      "t": 16.8,
+      "kind": "pluck",
+      "gain": 0.9
+    },
+    {
+      "t": 19.0,
+      "kind": "sub",
+      "gain": 0.7
+    },
+    {
+      "t": 27.15,
+      "kind": "glass",
+      "gain": 1.0
+    },
+    {
+      "t": 40.2,
+      "kind": "impact",
+      "gain": 1.0
+    },
+    {
+      "t": 41.6,
+      "kind": "boom",
+      "gain": 0.9
+    },
+    {
+      "t": 42.75,
+      "kind": "impact",
+      "gain": 0.8
+    },
+    {
+      "t": 46.0,
+      "kind": "impact",
+      "gain": 1.0
+    },
+    {
+      "t": 50.0,
+      "kind": "sub",
+      "gain": 0.8
+    },
+    {
+      "t": 55.0,
+      "kind": "pluck",
+      "gain": 1.0
+    }
+  ],
+  "risers": [
+    {
+      "from": 22.0,
+      "to": 27.15
+    },
+    {
+      "from": 37.5,
+      "to": 40.2
+    }
+  ],
+  "silences": [
+    {
+      "from": 27.15,
+      "to": 27.65
+    }
+  ]
+}

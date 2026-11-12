@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>三体 · 名场面复原</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="brand/favicon.svg">
+<link rel="stylesheet" href="src/ui.css">
+<script type="importmap">{ "imports": { "three": "./vendor/three/build/three.module.js", "three/addons/": "./vendor/three/examples/jsm/" } }</script>
+</head>
+<body class="viewer loading">
+<canvas id="c"></canvas>
+
+<div id="loader">
+  <div class="l-no" id="l-no"></div>
+  <h1 id="l-zh"></h1>
+  <div class="l-en" id="l-en"></div>
+  <div class="l-bar"><i></i></div>
+  <div class="l-msg" id="l-msg"></div>
+</div>
+
+<div id="hud">
+  <header>
+    <a class="back" href="./" id="back"><svg viewBox="0 0 24 24"><path d="M14 6l-6 6 6 6"/></svg><span data-zh="三体 · 名场面复原" data-en="Three-Body · Restored Scenes"></span></a>
+    <div class="scene-title"><b id="h-no"></b><span id="h-title"></span></div>
+    <nav>
+      <button id="b-cam" class="pill" title="C"><i class="dot"></i><span></span></button>
+      <span id="toggles"></span>
+      <button id="b-lang" class="ghost">EN</button>
+      <button id="b-hide" class="icon" title="H"><svg viewBox="0 0 24 24"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/></svg></button>
+      <button id="b-full" class="icon" title="F"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+    </nav>
+  </header>
+
+  <aside id="focus"><div class="label" data-zh="观察目标" data-en="Look at"></div><div id="focus-list"></div></aside>
+
+  <section id="moment">
+    <div class="m-idx" id="m-idx"></div>
+    <h2 id="m-title"></h2>
+    <div class="m-en" id="m-en"></div>
+    <p id="m-text"></p>
+  </section>
+
+  <footer>
+    <button id="b-play" class="play"><svg viewBox="0 0 24 24" class="i-play"><path d="M8 5l11 7-11 7z"/></svg><svg viewBox="0 0 24 24" class="i-pause"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
+    <div class="clock"><b id="t-now">00:00.0</b><span id="t-all"></span></div>
+    <div id="bar"><div class="track"><div class="fill" id="fill"></div><div id="ticks"></div><div class="knob" id="knob"></div></div><div id="tip"></div></div>
+    <div id="speed"></div>
+  </footer>
+  <div id="hint"></div>
+</div>
+<div id="unhide" data-zh="按 H 或点击此处恢复界面" data-en="Press H or tap here to show the interface"></div>
+<script type="module" src="src/core/ui.js"></script>
+</body>
+</html>
